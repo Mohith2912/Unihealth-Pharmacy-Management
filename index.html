@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UniHealth | Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Decorative hearts container -->
+<div class="decorative-hearts">
+  <span class="heart-decor" style="top: 10%; left: 5%;">♥</span>
+  <span class="heart-decor" style="top: 20%; right: 8%;">♥</span>
+  <span class="heart-decor" style="bottom: 15%; left: 4%;">♥</span>
+  <span class="heart-decor" style="bottom: 25%; right: 5%;">♥</span>
+</div>
+
+<!-- LOGIN VIEW -->
+<div id="login-view" class="auth-shell">
+  <div class="auth-wrapper">
+    <!-- Left hero -->
+    <section class="auth-hero">
+      <div class="auth-logo-chip">
+        <span>UniHealth</span> <span style="color: #ef4444;">♥</span>
+      </div>
+      <h1>UniHealth</h1>
+      <h2>Pharmacy Management System</h2>
+      <hr>
+      <p class="mb-2"><strong>Trusted by Excellence.</strong> UniHealth powers pharmacies with safe and efficient medicine management.</p>
+      <p>Connect inventory, reservations, alerts, and analytics into one secure professional portal.</p>
+    </section>
+
+    <!-- Right login card -->
+    <section class="auth-panel auth-login">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Portal Login</h2>
+        <div class="d-flex gap-2 align-items-center">
+          <button type="button" class="heart-btn" id="likeBtn" onclick="toggleLike(event)" title="Like this page">♡</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleTheme()">
+            <i class="bi bi-moon-stars"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Pharmacy ID</label>
+        <div class="input-with-icon">
+          <i class="bi bi-building"></i>
+          <input type="text" id="loginId" class="form-control-lg form-control" placeholder="UH_12345">
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Password</label>
+        <div class="input-with-icon">
+          <i class="bi bi-lock"></i>
+          <input type="password" id="loginPass" class="form-control-lg form-control" placeholder="••••••••">
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mb-3">
+        <button type="button" class="btn btn-link p-0 auth-link" onclick="showForgotPassword()">
+          Forgot Password?
+        </button>
+        <button type="button" class="btn btn-link p-0 auth-link" onclick="showForgotUhId()">
+          Forgot UH ID?
+        </button>
+      </div>
+
+      <button class="btn-gradient mb-2" onclick="handleLogin(event)">
+        <i class="bi bi-box-arrow-in-right"></i>
+        ACCESS SYSTEM
+      </button>
+
+      <p class="auth-footer-text">
+        New Pharmacy?
+        <a href="#" onclick="toggleAuth('reg'); return false;">Register with UniHealth</a>
+      </p>
+    </section>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD VIEW -->
+<div id="forgot-pass-view" class="auth-shell d-none">
+  <div class="auth-wrapper">
+    <!-- Left hero -->
+    <section class="auth-hero">
+      <div class="auth-logo-chip">
+        <span>UniHealth</span> <span style="color: #ef4444;">♥</span>
+      </div>
+      <h1>Reset Password</h1>
+      <h2>Secure access to your pharmacy portal.</h2>
+      <p>Use your registered phone number to verify ownership and set a new password.</p>
+    </section>
+
+    <!-- Right card -->
+    <section class="auth-panel">
+      <!-- Step 1: Phone -->
+      <div id="fp-step-1">
+        <h3 class="mb-3">Verify Phone</h3>
+        <div class="mb-3">
+          <label class="form-label">Registered Phone Number</label>
+          <input type="tel" id="fpPhone" class="form-control" placeholder="Enter registered phone number">
+        </div>
+        <button class="btn-gradient" onclick="startForgotPassOtp(event)">
+          <i class="bi bi-shield-lock"></i> Send OTP
+        </button>
+        <p class="auth-footer-text mt-3">
+          <a href="#" onclick="backToLoginFromForgotPass()">Back to Login</a>
+        </p>
+      </div>
+
+      <!-- Step 2: OTP -->
+      <div id="fp-step-2" class="d-none">
+        <p class="mb-2 small text-muted">
+          An OTP has been sent to your phone. Enter it below to continue.
+        </p>
+        <div class="mb-3">
+          <label class="form-label">One-Time Password (OTP)</label>
+          <input type="text" id="fpOtp" class="form-control" placeholder="6-digit OTP">
+        </div>
+        <button class="btn-gradient mb-2" onclick="verifyForgotPassOtp(event)">
+          <i class="bi bi-check-circle"></i> Verify OTP
+        </button>
+        <button class="btn btn-outline-secondary btn-sm" type="button" onclick="resendForgotPassOtp()">
+          Resend OTP
+        </button>
+        <p class="auth-footer-text mt-3">
+          <a href="#" onclick="backToLoginFromForgotPass()">Back to Login</a>
+        </p>
+      </div>
+
+      <!-- Step 3: New Password -->
+      <div id="fp-step-3" class="d-none">
+        <h3 class="mb-3">Set New Password</h3>
+        <div class="mb-3">
+          <label class="form-label">New Password</label>
+          <input type="password" id="fpNewPass" class="form-control" placeholder="Enter new password">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Re-enter Password</label>
+          <input type="password" id="fpNewPassConfirm" class="form-control" placeholder="Re-enter new password">
+        </div>
+        <button class="btn-gradient" onclick="confirmForgotPass(event)">
+          <i class="bi bi-save"></i> Confirm &amp; Save
+        </button>
+        <p class="auth-footer-text mt-3">
+          <a href="#" onclick="backToLoginFromForgotPass()">Back to Login</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- FORGOT UH ID VIEW -->
+<div id="forgot-uh-view" class="auth-shell d-none">
+  <div class="auth-wrapper">
+    <!-- Left hero -->
+    <section class="auth-hero">
+      <div class="auth-logo-chip">
+        <span>UniHealth</span>
+      </div>
+      <h1>Recover UH ID</h1>
+      <h2>Retrieve your UniHealth Pharmacy ID.</h2>
+      <p>Use your registered email and phone number to receive your UH ID securely.</p>
+    </section>
+
+    <!-- Right card -->
+    <section class="auth-panel">
+      <!-- Step 1: Email + Phone -->
+      <div id="fuh-step-1">
+        <h3 class="mb-3">Verify Details</h3>
+        <div class="mb-3">
+          <label class="form-label">Registered Email ID</label>
+          <input type="email" id="fuhEmail" class="form-control" placeholder="Enter registered email">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Registered Phone Number</label>
+          <input type="tel" id="fuhPhone" class="form-control" placeholder="Enter registered phone">
+        </div>
+        <button class="btn-gradient" onclick="startForgotUhOtp(event)">
+          <i class="bi bi-shield-lock"></i> Send OTP
+        </button>
+        <p class="auth-footer-text mt-3">
+          <a href="#" onclick="backToLoginFromForgotUh()">Back to Login</a>
+        </p>
+      </div>
+
+      <!-- Step 2: OTP -->
+      <div id="fuh-step-2" class="d-none">
+        <p class="mb-2 small text-muted">
+          An OTP has been sent to your registered phone number. Enter it below.
+        </p>
+        <div class="mb-3">
+          <label class="form-label">One-Time Password (OTP)</label>
+          <input type="text" id="fuhOtp" class="form-control" placeholder="6-digit OTP">
+        </div>
+        <button class="btn-gradient mb-2" onclick="verifyForgotUhOtp(event)">
+          <i class="bi bi-check-circle"></i> Verify OTP
+        </button>
+        <button class="btn btn-outline-secondary btn-sm" type="button" onclick="resendForgotUhOtp()">
+          Resend OTP
+        </button>
+        <p class="auth-footer-text mt-3">
+          <a href="#" onclick="backToLoginFromForgotUh()">Back to Login</a>
+        </p>
+      </div>
+
+      <!-- Step 3: Pharmacy Credentials (link simulation) -->
+      <div id="fuh-step-3" class="d-none">
+        <h3 class="mb-3">Confirm Pharmacy</h3>
+        <p class="small text-muted">
+          A secure link has been sent to your email. For simulation, complete the credentials below to receive your UH ID.
+        </p>
+        <div class="mb-3">
+          <label class="form-label">Pharmacy Name</label>
+          <input type="text" id="fuhPharmaName" class="form-control" placeholder="Enter pharmacy name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Location / Place</label>
+          <input type="text" id="fuhLocation" class="form-control" placeholder="City / Area">
+        </div>
+        <button class="btn-gradient" onclick="confirmForgotUh(event)">
+          <i class="bi bi-envelope-check"></i> Send UH ID to Mail
+        </button>
+        <p class="auth-footer-text mt-3">
+          <a href="#" onclick="backToLoginFromForgotUh()">Back to Login</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- REGISTRATION VIEW -->
+<div id="register-view" class="auth-shell d-none">
+  <div class="auth-wrapper">
+    <!-- Left hero -->
+    <section class="auth-hero">
+      <div class="auth-logo-chip">
+        <span>UniHealth</span> <span style="color: #ef4444;">♥</span>
+      </div>
+      <h1>UniHealth</h1>
+      <h2>Grow your pharmacy with intelligent tools and secure operations.</h2>
+    </section>
+
+    <!-- Right registration card -->
+    <section class="auth-panel auth-register">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Pharmacy Registration</h3>
+        <div class="d-flex gap-2 align-items-center">
+          <button type="button" class="heart-btn" id="regLikeBtn" onclick="toggleLike(event)" title="Like registration">♡</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleTheme()">
+            <i class="bi bi-moon-stars"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 1: details -->
+      <div id="reg-step-1">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Pharmacy Name</label>
+            <input type="text" id="regPharmaName" class="form-control" placeholder="Enter pharmacy name">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">User Name</label>
+            <input type="text" id="regUser" class="form-control" placeholder="Enter username">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Location/Place</label>
+            <input type="text" id="regLocation" class="form-control" placeholder="City/Area">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Aadhaar Number</label>
+            <input type="number" id="regAadhaar" class="form-control" placeholder="12-digit Aadhaar">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Pharmacy Address</label>
+            <textarea id="regAddress" rows="2" class="form-control" placeholder="Full address..."></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Phone No. 1</label>
+            <input type="tel" id="regPhone1" class="form-control" placeholder="Primary number">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Phone No. 2</label>
+            <input type="tel" id="regPhone2" class="form-control" placeholder="Secondary number">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Pharmacy ID (auto)</label>
+            <input type="text" id="regId" class="form-control" placeholder="Will be generated as UH_*****" disabled>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Password</label>
+            <input type="password" id="regPass" class="form-control" placeholder="Create password">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Re-enter Password</label>
+            <input type="password" id="regPassConfirm" class="form-control" placeholder="Confirm password">
+          </div>
+        </div>
+
+        <button class="btn-gradient mt-3" onclick="startOtpFlow(event)">
+          <i class="bi bi-shield-lock"></i>
+          Continue &amp; Send OTP
+        </button>
+
+        <p class="auth-footer-text">
+          Already registered?
+          <a href="#" onclick="toggleAuth('login')">Back to Login</a>
+        </p>
+      </div>
+
+      <!-- Step 2: OTP -->
+      <div id="reg-step-2" class="d-none">
+        <p class="mb-2 small text-muted">
+          An OTP has been sent to your primary phone number. Enter it below to verify your account.
+        </p>
+        <div class="mb-3">
+          <label class="form-label">One-Time Password (OTP)</label>
+          <div class="otp-row">
+            <input type="text" id="regOtp" class="form-control" placeholder="6-digit OTP">
+            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="resendOtp()">
+              Resend OTP
+            </button>
+          </div>
+        </div>
+        <button class="btn-gradient" onclick="handleRegistration(event)">
+          <i class="bi bi-check-circle"></i>
+          Verify OTP &amp; Register
+        </button>
+
+        <p class="auth-footer-text">
+          <a href="#" onclick="backToRegDetails()">← Edit registration details</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="auth-logic.js"></script>
+</body>
+</html>
