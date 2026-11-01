@@ -1,291 +1,454 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>UniHealth | Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        a.card-link { color:#2cb5b5; text-decoration:none; }
-        a.card-link:hover { text-decoration:underline; }
-    </style>
+  <meta charset="UTF-8">
+  <title>UniHealth · Pharmacy Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="UniHealth Pharmacy Overview dashboard for real-time stock monitoring, emergency orders, and active pickups.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230891b2'><path d='M19 10.5V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4.5'/><path d='M10 12h4m-2-2v4'/></svg>">
 </head>
 <body>
 <div class="app-shell">
 
-    <!-- Sidebar -->
-    <aside class="app-sidebar">
-        <div class="sidebar-brand">
-            <div class="brand-icon"><i class="bi bi-building-fill-check"></i></div>
-            <div>
-                <div class="brand-title">UniHealth</div>
-                <div class="brand-subtitle">Professional Portal</div>
-            </div>
-        </div>
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="app-sidebar" id="appSidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+          <path d="M12 8v8M8 12h8"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">UniHealth</div>
+        <div class="brand-subtitle">PHARMACY PORTAL</div>
+      </div>
+    </div>
 
-        <!-- Profile -->
-        <div class="sidebar-user mb-2">
-            <div class="sidebar-user-avatar">A</div>
-            <div>
-                <div class="fw-bold">Admin User</div>
-                <div class="brand-subtitle">Pharmacy ID: <span id="sidebarPhId">UH_12345</span></div>
-            </div>
-        </div>
+    <!-- Active User Profile -->
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">RX</div>
+      <div style="overflow: hidden;">
+        <div class="fw-bold" style="font-size: 0.9rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">Pharmacist Admin</div>
+        <div class="brand-subtitle">ID: <span id="sidebarPhId">UH_12345</span></div>
+      </div>
+    </div>
 
-        <!-- Logout -->
-        <button class="btn btn-sm btn-outline-danger w-100 mb-3" onclick="handleLogout()">
-            <i class="bi bi-box-arrow-right me-2"></i> Logout
+    <!-- Primary Navigation -->
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link active">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="inventory.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+          <path d="m3.3 7 8.7 5 8.7-5M12 22V12"></path>
+        </svg>
+        <span>Inventory Catalog</span>
+      </a>
+      <a href="reservations.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <path d="m9 16 2 2 4-4"></path>
+        </svg>
+        <span>Reservations &amp; Pickups</span>
+      </a>
+      <a href="alerts.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span>Stock Alerts</span>
+      </a>
+      <a href="analytics.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>Analytics &amp; Trust</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <button class="btn-danger-outline w-100" onclick="handleLogout()">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Sign Out Workspace
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="app-main">
+    <!-- Header Row -->
+    <div class="app-header-row">
+      <div>
+        <div class="brand-subtitle" style="color: var(--primary);">CLINICAL OVERVIEW</div>
+        <h1 style="font-size: 1.85rem; margin: 4px 0 0;">Pharmacy Dashboard</h1>
+      </div>
+      <div class="header-meta">
+        <button type="button" class="btn-icon" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m14.14-14.14l-1.41 1.41"></path>
+          </svg>
         </button>
+        <span class="live-pill">
+          <span class="live-dot"></span>
+          <span>LIVE</span>
+        </span>
+        <span id="syncTime" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Synced --:--:--</span>
+      </div>
+    </div>
 
-        <nav class="sidebar-nav">
-            <a href="dashboard.html" class="sidebar-link active">
-                <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+    <!-- 4 Stats KPI Cards -->
+    <div class="stats-grid">
+      <!-- Total Medicines -->
+      <article class="stat-card">
+        <div>
+          <div class="stat-title">Catalog Inventory</div>
+          <div class="stat-value" id="dashTotalMedicines">0</div>
+          <div class="stat-badge text-success">
+            <span>↑ +12.5%</span>
+            <span class="text-muted" style="font-weight: 500;">vs last week</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <a href="inventory.html" style="font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+              Manage catalog →
             </a>
-            <a href="inventory.html" class="sidebar-link">
-                <i class="bi bi-box-seam"></i><span>Inventory</span>
-            </a>
-            <a href="reservations.html" class="sidebar-link">
-                <i class="bi bi-calendar-check"></i><span>Reservations</span>
-            </a>
-            <a href="alerts.html" class="sidebar-link">
-                <i class="bi bi-bell"></i><span>Alerts</span>
-            </a>
-            <a href="analytics.html" class="sidebar-link">
-                <i class="bi bi-graph-up"></i><span>Analytics</span>
-            </a>
-        </nav>
-    </aside>
+          </div>
+        </div>
+        <div class="stat-icon-wrapper">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+          </svg>
+        </div>
+      </article>
 
-    <!-- Main -->
-    <main class="app-main">
-        <div class="app-header-row">
+      <!-- Low Stock -->
+      <article class="stat-card">
+        <div>
+          <div class="stat-title">Low Stock Threshold</div>
+          <div class="stat-value" id="dashLowStock" style="color: var(--warning);">0</div>
+          <div class="stat-badge text-warning">
+            <span>● Requires Reorder</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <a href="alerts.html" style="font-size: 0.82rem; font-weight: 700; color: var(--warning); display: inline-flex; align-items: center; gap: 4px;">
+              View alerts →
+            </a>
+          </div>
+        </div>
+        <div class="stat-icon-wrapper warning">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </div>
+      </article>
+
+      <!-- Expiring Soon -->
+      <article class="stat-card">
+        <div>
+          <div class="stat-title">Expiring In 30 Days</div>
+          <div class="stat-value" id="dashExpiringSoon" style="color: var(--danger);">0</div>
+          <div class="stat-badge text-danger">
+            <span>Critical triage</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <a href="alerts.html" style="font-size: 0.82rem; font-weight: 700; color: var(--danger); display: inline-flex; align-items: center; gap: 4px;">
+              Inspect batches →
+            </a>
+          </div>
+        </div>
+        <div class="stat-icon-wrapper danger">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+      </article>
+
+      <!-- Pending Pickups -->
+      <article class="stat-card">
+        <div>
+          <div class="stat-title">Scheduled Pickups</div>
+          <div class="stat-value" style="color: var(--primary);">5</div>
+          <div class="stat-badge text-success">
+            <span>● In-Store Counter</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <a href="reservations.html" style="font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+              Fulfill pickups →
+            </a>
+          </div>
+        </div>
+        <div class="stat-icon-wrapper success">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+      </article>
+    </div>
+
+    <!-- Main Workspace Layout -->
+    <div style="display: grid; grid-template-columns: 1.7fr 1fr; gap: 24px;">
+      
+      <!-- Left Column: Pickups & Activity -->
+      <div>
+        <!-- Today's Pickups Section -->
+        <section class="panel">
+          <div class="panel-header">
             <div>
-                <h2 class="fw-bold mb-0">Dashboard Overview</h2>
-                <p class="text-muted mb-0">Welcome back! Here's your pharmacy status</p>
+              <h2 class="panel-title">Today's In-Store Pickups</h2>
+              <p class="panel-sub">Verified patient reservations scheduled for collection today</p>
             </div>
-            <div class="text-end small text-muted">
-                <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="toggleTheme()">
-                    <i class="bi bi-moon-stars"></i>
-                </button>
-                <span class="text-success">● Live</span>
-                &nbsp;<span id="syncTime">Synced --:--:--</span>
-            </div>
-        </div>
+            <span class="badge-status instock">5 Pending</span>
+          </div>
 
-        <!-- Stats -->
-        <div class="row g-4 mb-4">
-            <div class="col-md-3">
-                <div class="stat-card d-flex justify-content-between h-100">
-                    <div>
-                        <p class="text-muted small mb-1">Total Medicines</p>
-                        <h2 class="fw-bold mb-1" id="dashTotalMedicines">0</h2>
-                        <span class="text-success small fw-bold">↑ +12.5%
-                            <span class="fw-normal text-muted">from last week</span>
-                        </span>
-                        <div class="mt-3">
-                            <a href="inventory.html" class="card-link small">
-                                View details →
-                            </a>
-                        </div>
-                    </div>
-                    <i class="bi bi-box-seam stat-icon"></i>
+          <div class="pickup-card">
+            <div>
+              <div class="pickup-patient">Arjun Mehta (RX-9041)</div>
+              <div class="pickup-medicines">Paracetamol 500mg × 10 · Amoxicillin 250mg × 15</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="pickup-time">11:30 AM</span>
+              <button class="btn-teal" style="padding: 7px 14px; font-size: 0.8rem; min-height: 36px;" onclick="showNotification('Marked pickup collected for Arjun Mehta.')">
+                <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Mark Collected
+              </button>
+            </div>
+          </div>
+
+          <div class="pickup-card">
+            <div>
+              <div class="pickup-patient">Divya N (RX-8822)</div>
+              <div class="pickup-medicines">Metformin 850mg × 30 · Losartan 50mg × 15</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="pickup-time">02:00 PM</span>
+              <button class="btn-teal" style="padding: 7px 14px; font-size: 0.8rem; min-height: 36px;" onclick="showNotification('Marked pickup collected for Divya N.')">
+                <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Mark Collected
+              </button>
+            </div>
+          </div>
+
+          <div class="pickup-card">
+            <div>
+              <div class="pickup-patient">Kavitha Rajan (RX-7319)</div>
+              <div class="pickup-medicines">Salbutamol Inhaler × 1 · Cetirizine 10mg × 10</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="pickup-time">04:15 PM</span>
+              <button class="btn-teal" style="padding: 7px 14px; font-size: 0.8rem; min-height: 36px;" onclick="showNotification('Marked pickup collected for Kavitha Rajan.')">
+                <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Mark Collected
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Recent Real-time Activity Feed -->
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Real-Time Operational Log</h2>
+              <p class="panel-sub">Recent dispensary updates and inventory transactions</p>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--primary);"></span>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem;">Stock Level Adjusted</div>
+                  <div class="panel-sub">Paracetamol 500mg (+50 units added by Pharmacist)</div>
                 </div>
+              </div>
+              <span class="text-muted" style="font-size: 0.78rem;">4 mins ago</span>
             </div>
 
-            <div class="col-md-3">
-                <div class="stat-card d-flex justify-content-between h-100">
-                    <div>
-                        <p class="text-muted small mb-1">Low Stock Alerts</p>
-                        <h2 class="fw-bold mb-1" id="dashLowStock">0</h2>
-                        <span class="text-muted small">Needs reorder</span>
-                        <div class="mt-3">
-                            <a href="alerts.html" class="card-link small">
-                                View details →
-                            </a>
-                        </div>
-                    </div>
-                    <i class="bi bi-exclamation-triangle stat-icon text-warning" style="background:#fffbeb"></i>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--success);"></span>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem;">New Online Reservation Received</div>
+                  <div class="panel-sub">Amoxicillin 250mg (Customer: Rohit K.)</div>
                 </div>
+              </div>
+              <span class="text-muted" style="font-size: 0.78rem;">11 mins ago</span>
             </div>
 
-            <div class="col-md-3">
-                <div class="stat-card d-flex justify-content-between h-100">
-                    <div>
-                        <p class="text-muted small mb-1">Expiring Soon</p>
-                        <h2 class="fw-bold mb-1" id="dashExpiringSoon">0</h2>
-                        <span class="text-muted small">Within 30 days</span>
-                        <div class="mt-3">
-                            <a href="alerts.html" class="card-link small">
-                                View details →
-                            </a>
-                        </div>
-                    </div>
-                    <i class="bi bi-clock-history stat-icon text-danger" style="background:#fef2f2"></i>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--warning);"></span>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem;">Low Stock Warning Triggered</div>
+                  <div class="panel-sub">Insulin Glargine (Only 4 pens remaining in cold store)</div>
                 </div>
+              </div>
+              <span class="text-muted" style="font-size: 0.78rem;">28 mins ago</span>
             </div>
+          </div>
+        </section>
+      </div>
 
-            <div class="col-md-3">
-                <div class="stat-card d-flex justify-content-between h-100">
-                    <div>
-                        <p class="text-muted small mb-1">Active Reservations</p>
-                        <h2 class="fw-bold mb-1" id="dashTodayReservations">8</h2>
-                        <span class="text-muted small">Pending pickup</span>
-                        <div class="mt-3">
-                            <a href="reservations.html" class="card-link small">
-                                View details →
-                            </a>
-                        </div>
-                    </div>
-                    <i class="bi bi-calendar-check stat-icon text-success" style="background:#f0fdf4"></i>
-                </div>
+      <!-- Right Column: Quick Actions & Status -->
+      <div>
+        <!-- Quick Actions Panel -->
+        <section class="panel">
+          <h2 class="panel-title" style="margin-bottom: 18px;">Quick Dispatch Actions</h2>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <a href="inventory.html" class="btn-primary-custom w-100" style="justify-content: flex-start;">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              <span>Add New Medicine to Stock</span>
+            </a>
+            <a href="reservations.html" class="btn-outline-custom w-100" style="justify-content: flex-start;">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span>Review Incoming Reservations</span>
+            </a>
+            <a href="alerts.html" class="btn-outline-custom w-100" style="justify-content: flex-start;">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>Inspect Triage &amp; Expiry Alerts</span>
+            </a>
+            <a href="analytics.html" class="btn-outline-custom w-100" style="justify-content: flex-start;">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>Generate Audit &amp; Trust Score</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Facility Environmental Controls -->
+        <section class="panel">
+          <h2 class="panel-title" style="margin-bottom: 6px;">Facility Monitoring</h2>
+          <p class="panel-sub" style="margin-bottom: 16px;">Cold-chain and clinical storage sensors</p>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+              <span class="text-muted">Cold Store Refrigerator</span>
+              <span class="badge-status instock">4.2°C · Optimal</span>
             </div>
-        </div>
-
-        <!-- Recent Activity + Quick Actions (unchanged static content) -->
-        <div class="row g-4">
-            <div class="col-lg-8">
-                <div class="card border-0 shadow-sm p-4 h-100">
-                    <h5 class="fw-bold mb-3">Recent Activity</h5>
-
-                    <div class="activity-item d-flex gap-3">
-                        <div class="text-primary fs-5 pt-1">
-                            <i class="bi bi-circle-fill" style="font-size:0.6rem;"></i>
-                        </div>
-                        <div>
-                            <p class="mb-0 fw-bold">Stock Updated</p>
-                            <small class="text-muted">Paracetamol 500mg</small>
-                        </div>
-                        <div class="ms-auto text-muted small">5 min ago</div>
-                    </div>
-
-                    <div class="activity-item d-flex gap-3">
-                        <div class="text-success fs-5 pt-1">
-                            <i class="bi bi-circle-fill" style="font-size:0.6rem;"></i>
-                        </div>
-                        <div>
-                            <p class="mb-0 fw-bold">New Reservation</p>
-                            <small class="text-muted">Amoxicillin 250mg</small>
-                        </div>
-                        <div class="ms-auto text-muted small">12 min ago</div>
-                    </div>
-
-                    <div class="mt-5">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <h5 class="fw-bold mb-0">Today's Pickups</h5>
-                                <small class="text-muted">Reservations scheduled for collection today</small>
-                            </div>
-                            <span class="badge-pending fw-bold small">5 pending</span>
-                        </div>
-
-                        <div class="pickup-item d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <p class="mb-0 fw-bold">Patient: John D.</p>
-                                <small class="text-muted">Ciprofloxacin 500mg × 10</small>
-                            </div>
-                            <span class="badge bg-light text-dark border me-3">11:30 AM</span>
-                            <button class="btn btn-teal btn-sm px-3">
-                                <i class="bi bi-check2-circle"></i> Mark Collected
-                            </button>
-                        </div>
-
-                        <div class="pickup-item d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <p class="mb-0 fw-bold">Patient: Sarah M.</p>
-                                <small class="text-muted">Metformin 850mg × 30</small>
-                            </div>
-                            <span class="badge bg-light text-dark border me-3">2:00 PM</span>
-                            <button class="btn btn-teal btn-sm px-3">
-                                <i class="bi bi-check2-circle"></i> Mark Collected
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+              <span class="text-muted">Ambient Dispensary Temp</span>
+              <span class="badge-status instock">22.4°C · Compliant</span>
             </div>
-
-            <!-- Quick actions -->
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm p-4">
-                    <h5 class="fw-bold mb-4">Quick Actions</h5>
-                    <a href="inventory.html" class="btn btn-action w-100" style="background:#2cb5b5;color:white;">
-                        <i class="bi bi-plus-circle-fill me-3"></i> Add New Medicine
-                    </a>
-                    <a href="reservations.html" class="btn btn-action w-100">
-                        <i class="bi bi-calendar-event me-3 text-muted"></i> View Reservations
-                    </a>
-                    <a href="alerts.html" class="btn btn-action w-100">
-                        <i class="bi bi-exclamation-octagon me-3 text-muted"></i> Check Alerts
-                    </a>
-                    <a href="analytics.html" class="btn btn-action w-100">
-                        <i class="bi bi-graph-up me-3 text-muted"></i> View Analytics
-                    </a>
-                </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+              <span class="text-muted">Emergency Dispatch Queue</span>
+              <span class="badge-status instock">Ready · 0 Active</span>
             </div>
-        </div>
-    </main>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
 </div>
 
 <script src="auth-logic.js"></script>
 <script>
-    function updateSyncTime() {
-        const now = new Date();
-        document.getElementById('syncTime').textContent =
-            'Synced ' + now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  function updateSyncTime() {
+    const now = new Date();
+    const timeEl = document.getElementById('syncTime');
+    if (timeEl) {
+      timeEl.textContent = 'Synced ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
-    updateSyncTime();
-    setInterval(updateSyncTime, 1000);
+  }
+  updateSyncTime();
+  setInterval(updateSyncTime, 1000);
 </script>
 
-<!-- Firebase dashboard stats -->
+<!-- Firebase Realtime DB Module -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyArT58XNlHQyPyvji-e8HCEovVeYrhF7t8",
-        authDomain: "uni-health-64e06.firebaseapp.com",
-        databaseURL: "https://uni-health-64e06-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "uni-health-64e06",
-        storageBucket: "uni-health-64e06.firebasestorage.app",
-        messagingSenderId: "421283614648",
-        appId: "1:421283614648:web:4d4c894371c2a1e0b1494d",
-        measurementId: "G-CS84CLKB80"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyArT58XNlHQyPyvji-e8HCEovVeYrhF7t8",
+    authDomain: "uni-health-64e06.firebaseapp.com",
+    databaseURL: "https://uni-health-64e06-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "uni-health-64e06",
+    storageBucket: "uni-health-64e06.firebasestorage.app",
+    messagingSenderId: "421283614648",
+    appId: "1:421283614648:web:4d4c894371c2a1e0b1494d",
+    measurementId: "G-CS84CLKB80"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const inventoryPath = 'pharmacies/pharmacy_001/inventory';
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const inventoryPath = 'pharmacies/pharmacy_001/inventory';
 
-    onValue(ref(db, inventoryPath), (snapshot) => {
-        const data = snapshot.val() || {};
-        const meds = Object.values(data);
+  onValue(ref(db, inventoryPath), (snapshot) => {
+    const data = snapshot.val() || {};
+    const meds = Object.values(data);
 
-        const total = meds.length;
-        const lowStock = meds.filter(m => {
-            const s = Number(m.stock || m.qty || 0);
-            return s > 0 && s < 30;
-        }).length;
+    const total = meds.length;
+    const lowStock = meds.filter(m => {
+      const s = Number(m.stock || m.qty || 0);
+      return s > 0 && s < 30;
+    }).length;
 
-        const now = new Date();
-        const in30 = new Date();
-        in30.setDate(now.getDate() + 30);
-        const expSoon = meds.filter(m => {
-            if (!m.expiry) return false;
-            const [y, mo] = m.expiry.split("-");
-            const d = new Date(Number(y), Number(mo) - 1, 1);
-            return d >= now && d <= in30;
-        }).length;
+    const now = new Date();
+    const in30 = new Date();
+    in30.setDate(now.getDate() + 30);
+    const expSoon = meds.filter(m => {
+      if (!m.expiry) return false;
+      const [y, mo] = m.expiry.split("-");
+      const d = new Date(Number(y), Number(mo) - 1, 1);
+      return d >= now && d <= in30;
+    }).length;
 
-        const totalEl = document.getElementById('dashTotalMedicines');
-        const lowEl   = document.getElementById('dashLowStock');
-        const expEl   = document.getElementById('dashExpiringSoon');
+    const totalEl = document.getElementById('dashTotalMedicines');
+    const lowEl = document.getElementById('dashLowStock');
+    const expEl = document.getElementById('dashExpiringSoon');
 
-        if (totalEl) totalEl.textContent = total;
-        if (lowEl)   lowEl.textContent   = lowStock;
-        if (expEl)   expEl.textContent   = expSoon;
-    });
+    if (totalEl) totalEl.textContent = total;
+    if (lowEl) lowEl.textContent = lowStock;
+    if (expEl) expEl.textContent = expSoon;
+  });
 </script>
 
 </body>
