@@ -1070,6 +1070,19 @@ button {
   box-shadow: var(--shadow-lg);
 }
 
+/* Utilities & Display Helpers */
+.d-none { display: none !important; }
+.d-flex { display: flex !important; }
+.d-block { display: block !important; }
+.text-center { text-align: center !important; }
+.text-end { text-align: right !important; }
+.w-100 { width: 100% !important; }
+.fw-bold { font-weight: 700 !important; }
+.text-muted { color: var(--text-muted) !important; }
+.text-success { color: var(--success) !important; }
+.text-warning { color: var(--warning) !important; }
+.text-danger { color: var(--danger) !important; }
+
 /* Responsive Media Queries */
 @media (max-width: 992px) {
   .app-sidebar {

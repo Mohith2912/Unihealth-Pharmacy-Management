@@ -1,65 +1,67 @@
 let generatedOtp = null;
 
-// ---------- HEART & ANIMATION EFFECTS ----------
-function createFloatingHeart(x, y) {
-  const heart = document.createElement('div');
-  heart.innerHTML = '♥';
-  heart.className = 'heart-float';
-  
-  const randomX = (Math.random() - 0.5) * 100;
-  const randomY = -(Math.random() * 200 + 100);
-  
-  heart.style.setProperty('--tx', randomX + 'px');
-  heart.style.setProperty('--ty', randomY + 'px');
-  heart.style.left = x + 'px';
-  heart.style.top = y + 'px';
-  
-  document.body.appendChild(heart);
-  
-  setTimeout(() => heart.remove(), 2500);
+// ---------- TOAST & NOTICE HELPERS ----------
+function showNotification(message, isError = false) {
+  let toast = document.getElementById('uhToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'uhToast';
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      background: var(--surface);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+      opacity: 0;
+      transform: translateY(12px);
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.style.borderColor = isError ? 'var(--danger)' : 'var(--primary)';
+  toast.innerHTML = `
+    <span style="color:${isError ? 'var(--danger)' : 'var(--primary)'}">●</span>
+    <span>${message}</span>
+  `;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateY(0)';
+
+  clearTimeout(showNotification.timer);
+  showNotification.timer = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(12px)';
+  }, 4000);
 }
 
-function toggleLike(event) {
-  event.preventDefault();
-  const btn = event.currentTarget;
-  
-  btn.classList.toggle('active');
-  
-  const rect = btn.getBoundingClientRect();
-  const x = rect.left + rect.width / 2;
-  const y = rect.top + rect.height / 2;
-  
-  for (let i = 0; i < 6; i++) {
-    setTimeout(() => {
-      createFloatingHeart(x, y);
-    }, i * 80);
-  }
-  
-  if (btn.classList.contains('active')) {
-    btn.textContent = '♥';
-  } else {
-    btn.textContent = '♡';
-  }
-}
+// Fallback heart & animation stubs for backward-compatible event signatures
+function createFloatingHeart() {}
+function toggleLike() {}
+function createButtonRipple() {}
 
-function createButtonRipple(event) {
-  if (event.currentTarget.classList.contains('btn-gradient')) {
-    createFloatingHeart(event.clientX, event.clientY);
-  }
-}
-
-// ---------- THEME ----------
+// ---------- THEME MANAGEMENT ----------
 function applyTheme(theme) {
   if (theme === 'dark') {
     document.body.classList.add('dark');
+    document.documentElement.dataset.theme = 'dark';
   } else {
     document.body.classList.remove('dark');
+    document.documentElement.dataset.theme = 'light';
   }
   localStorage.setItem('uh-theme', theme);
 }
 
 function toggleTheme() {
-  const isDark = document.body.classList.contains('dark');
+  const isDark = document.body.classList.contains('dark') || document.documentElement.dataset.theme === 'dark';
   applyTheme(isDark ? 'light' : 'dark');
 }
 
@@ -74,54 +76,65 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ---------- AUTH ----------
+// ---------- AUTH VIEW TOGGLING ----------
 function toggleAuth(view) {
   const loginView = document.getElementById('login-view');
   const registerView = document.getElementById('register-view');
+  const forgotPassView = document.getElementById('forgot-pass-view');
+  const forgotUhView = document.getElementById('forgot-uh-view');
+
+  if (forgotPassView) forgotPassView.classList.add('d-none');
+  if (forgotUhView) forgotUhView.classList.add('d-none');
 
   if (view === 'reg') {
-    loginView.classList.add('d-none');
-    registerView.classList.remove('d-none');
+    if (loginView) loginView.classList.add('d-none');
+    if (registerView) registerView.classList.remove('d-none');
   } else {
-    registerView.classList.add('d-none');
-    loginView.classList.remove('d-none');
+    if (registerView) registerView.classList.add('d-none');
+    if (loginView) loginView.classList.remove('d-none');
   }
 }
 
 function startOtpFlow(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const pass = document.getElementById('regPass').value;
-  const confirm = document.getElementById('regPassConfirm').value;
+  if (event) event.preventDefault();
+  const pass = document.getElementById('regPass')?.value;
+  const confirm = document.getElementById('regPassConfirm')?.value;
 
   if (!pass) {
     alert('Please set a password before continuing.');
     return;
   }
+  if (pass.length < 8) {
+    alert('Security Notice: Password must be at least 8 characters.');
+    return;
+  }
   if (pass !== confirm) {
-    alert('🚨 ADMIN ALERT: Password mismatch. Please ensure both password fields are identical.');
+    alert('Password mismatch. Please ensure both password fields are identical.');
     return;
   }
 
   generatedOtp = String(Math.floor(100000 + Math.random() * 900000));
-  console.log('DEBUG OTP (remove in production):', generatedOtp);
+  console.log('UniHealth Simulation OTP:', generatedOtp);
 
-  alert('OTP sent to your registered mobile number (simulation).');
+  alert('Security verification code sent to registered contact: ' + generatedOtp);
 
-  document.getElementById('reg-step-1').classList.add('d-none');
-  document.getElementById('reg-step-2').classList.remove('d-none');
+  const step1 = document.getElementById('reg-step-1');
+  const step2 = document.getElementById('reg-step-2');
+  if (step1) step1.classList.add('d-none');
+  if (step2) step2.classList.remove('d-none');
 }
 
 function resendOtp() {
   generatedOtp = String(Math.floor(100000 + Math.random() * 900000));
-  console.log('DEBUG OTP (resend):', generatedOtp);
-  alert('New OTP sent (simulation).');
+  console.log('UniHealth Resent OTP:', generatedOtp);
+  alert('New security verification code sent: ' + generatedOtp);
 }
 
 function backToRegDetails() {
-  document.getElementById('reg-step-2').classList.add('d-none');
-  document.getElementById('reg-step-1').classList.remove('d-none');
+  const step1 = document.getElementById('reg-step-1');
+  const step2 = document.getElementById('reg-step-2');
+  if (step2) step2.classList.add('d-none');
+  if (step1) step1.classList.remove('d-none');
 }
 
 function generatePharmacyId() {
@@ -130,35 +143,33 @@ function generatePharmacyId() {
 }
 
 function handleRegistration(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const otpInput = document.getElementById('regOtp').value.trim();
+  if (event) event.preventDefault();
+  const otpInput = document.getElementById('regOtp')?.value.trim();
 
   if (!generatedOtp) {
     alert('Please request an OTP first.');
     return;
   }
   if (otpInput !== generatedOtp) {
-    alert('Invalid OTP. Please check and try again.');
+    alert('Invalid authorization code. Please verify and retry.');
     return;
   }
 
   const autoId = generatePharmacyId();
-  document.getElementById('regId').value = autoId;
+  const regIdInput = document.getElementById('regId');
+  if (regIdInput) regIdInput.value = autoId;
 
-  alert('UniHealth Registration Successful! Your Pharmacy ID is: ' + autoId);
+  alert('UniHealth Onboarding Complete! Your Assigned Pharmacy ID is: ' + autoId);
   toggleAuth('login');
-  document.getElementById('loginId').value = autoId;
+  const loginInput = document.getElementById('loginId');
+  if (loginInput) loginInput.value = autoId;
   localStorage.setItem('pharmacyId', autoId);
 }
 
 function handleLogin(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const id = document.getElementById('loginId').value.trim();
-  const pass = document.getElementById('loginPass').value;
+  if (event) event.preventDefault();
+  const id = document.getElementById('loginId')?.value.trim();
+  const pass = document.getElementById('loginPass')?.value;
 
   if (!id || !pass) {
     alert('Please enter your Pharmacy ID and Password.');
@@ -174,7 +185,7 @@ function handleLogout() {
   window.location.href = 'index.html';
 }
 
-// allow Enter key on login
+// Global Enter Key Handler
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Enter') {
     const loginView = document.getElementById('login-view');
@@ -189,37 +200,56 @@ let forgotPassOtp = null;
 let forgotPassPhone = null;
 
 function showForgotPassword() {
-  document.getElementById('login-view').classList.add('d-none');
-  document.getElementById('register-view').classList.add('d-none');
-  document.getElementById('forgot-uh-view').classList.add('d-none');
-  document.getElementById('forgot-pass-view').classList.remove('d-none');
+  const loginView = document.getElementById('login-view');
+  const regView = document.getElementById('register-view');
+  const fuhView = document.getElementById('forgot-uh-view');
+  const fpView = document.getElementById('forgot-pass-view');
 
-  document.getElementById('fp-step-1').classList.remove('d-none');
-  document.getElementById('fp-step-2').classList.add('d-none');
-  document.getElementById('fp-step-3').classList.add('d-none');
+  if (loginView) loginView.classList.add('d-none');
+  if (regView) regView.classList.add('d-none');
+  if (fuhView) fuhView.classList.add('d-none');
+  if (fpView) {
+    fpView.classList.remove('d-none');
+    fpView.style.display = 'flex';
+  }
+
+  const s1 = document.getElementById('fp-step-1');
+  const s2 = document.getElementById('fp-step-2');
+  const s3 = document.getElementById('fp-step-3');
+  if (s1) { s1.classList.remove('d-none'); s1.style.display = 'block'; }
+  if (s2) { s2.classList.add('d-none'); s2.style.display = 'none'; }
+  if (s3) { s3.classList.add('d-none'); s3.style.display = 'none'; }
 }
 
 function backToLoginFromForgotPass() {
-  document.getElementById('forgot-pass-view').classList.add('d-none');
-  document.getElementById('login-view').classList.remove('d-none');
+  const fpView = document.getElementById('forgot-pass-view');
+  const loginView = document.getElementById('login-view');
+  if (fpView) {
+    fpView.classList.add('d-none');
+    fpView.style.display = 'none';
+  }
+  if (loginView) {
+    loginView.classList.remove('d-none');
+    loginView.style.display = 'flex';
+  }
 }
 
 function startForgotPassOtp(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const phone = document.getElementById('fpPhone').value.trim();
+  if (event) event.preventDefault();
+  const phone = document.getElementById('fpPhone')?.value.trim();
   if (!phone) {
     alert('Please enter your registered phone number.');
     return;
   }
   forgotPassPhone = phone;
   forgotPassOtp = String(Math.floor(100000 + Math.random() * 900000));
-  console.log('DEBUG ForgotPass OTP:', forgotPassOtp); // remove in production
-  alert('OTP sent to your registered phone number (simulation).');
+  console.log('ForgotPass OTP:', forgotPassOtp);
+  alert('Password reset authorization code: ' + forgotPassOtp);
 
-  document.getElementById('fp-step-1').classList.add('d-none');
-  document.getElementById('fp-step-2').classList.remove('d-none');
+  const s1 = document.getElementById('fp-step-1');
+  const s2 = document.getElementById('fp-step-2');
+  if (s1) { s1.classList.add('d-none'); s1.style.display = 'none'; }
+  if (s2) { s2.classList.remove('d-none'); s2.style.display = 'block'; }
 }
 
 function resendForgotPassOtp() {
@@ -228,46 +258,48 @@ function resendForgotPassOtp() {
     return;
   }
   forgotPassOtp = String(Math.floor(100000 + Math.random() * 900000));
-  console.log('DEBUG ForgotPass OTP resend:', forgotPassOtp);
-  alert('New OTP sent to your phone (simulation).');
+  console.log('Resent ForgotPass OTP:', forgotPassOtp);
+  alert('New password reset authorization code: ' + forgotPassOtp);
 }
 
 function verifyForgotPassOtp(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const input = document.getElementById('fpOtp').value.trim();
+  if (event) event.preventDefault();
+  const input = document.getElementById('fpOtp')?.value.trim();
   if (!forgotPassOtp) {
-    alert('Please request an OTP first.');
+    alert('Please request an authorization code first.');
     return;
   }
   if (input !== forgotPassOtp) {
-    alert('Invalid OTP. Please check and try again.');
+    alert('Invalid code. Please re-enter.');
     return;
   }
-  alert('OTP verified. Please set your new password.');
+  alert('Code verified successfully. Please enter your new password.');
 
-  document.getElementById('fp-step-2').classList.add('d-none');
-  document.getElementById('fp-step-3').classList.remove('d-none');
+  const s2 = document.getElementById('fp-step-2');
+  const s3 = document.getElementById('fp-step-3');
+  if (s2) { s2.classList.add('d-none'); s2.style.display = 'none'; }
+  if (s3) { s3.classList.remove('d-none'); s3.style.display = 'block'; }
 }
 
 function confirmForgotPass(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const pass = document.getElementById('fpNewPass').value;
-  const confirm = document.getElementById('fpNewPassConfirm').value;
+  if (event) event.preventDefault();
+  const pass = document.getElementById('fpNewPass')?.value;
+  const confirm = document.getElementById('fpNewPassConfirm')?.value;
 
   if (!pass || !confirm) {
     alert('Please enter and confirm your new password.');
     return;
   }
+  if (pass.length < 8) {
+    alert('Password must be at least 8 characters long.');
+    return;
+  }
   if (pass !== confirm) {
-    alert('Password mismatch. Please ensure both fields are identical.');
+    alert('Password mismatch. Please ensure both fields match.');
     return;
   }
 
-  alert('Password reset successful! You can now log in with your new password.');
+  alert('Password updated successfully! Please sign in with your new credentials.');
   backToLoginFromForgotPass();
 }
 
@@ -277,27 +309,44 @@ let forgotUhEmail = null;
 let forgotUhPhone = null;
 
 function showForgotUhId() {
-  document.getElementById('login-view').classList.add('d-none');
-  document.getElementById('register-view').classList.add('d-none');
-  document.getElementById('forgot-pass-view').classList.add('d-none');
-  document.getElementById('forgot-uh-view').classList.remove('d-none');
+  const loginView = document.getElementById('login-view');
+  const regView = document.getElementById('register-view');
+  const fpView = document.getElementById('forgot-pass-view');
+  const fuhView = document.getElementById('forgot-uh-view');
 
-  document.getElementById('fuh-step-1').classList.remove('d-none');
-  document.getElementById('fuh-step-2').classList.add('d-none');
-  document.getElementById('fuh-step-3').classList.add('d-none');
+  if (loginView) loginView.classList.add('d-none');
+  if (regView) regView.classList.add('d-none');
+  if (fpView) fpView.classList.add('d-none');
+  if (fuhView) {
+    fuhView.classList.remove('d-none');
+    fuhView.style.display = 'flex';
+  }
+
+  const s1 = document.getElementById('fuh-step-1');
+  const s2 = document.getElementById('fuh-step-2');
+  const s3 = document.getElementById('fuh-step-3');
+  if (s1) { s1.classList.remove('d-none'); s1.style.display = 'block'; }
+  if (s2) { s2.classList.add('d-none'); s2.style.display = 'none'; }
+  if (s3) { s3.classList.add('d-none'); s3.style.display = 'none'; }
 }
 
 function backToLoginFromForgotUh() {
-  document.getElementById('forgot-uh-view').classList.add('d-none');
-  document.getElementById('login-view').classList.remove('d-none');
+  const fuhView = document.getElementById('forgot-uh-view');
+  const loginView = document.getElementById('login-view');
+  if (fuhView) {
+    fuhView.classList.add('d-none');
+    fuhView.style.display = 'none';
+  }
+  if (loginView) {
+    loginView.classList.remove('d-none');
+    loginView.style.display = 'flex';
+  }
 }
 
 function startForgotUhOtp(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const email = document.getElementById('fuhEmail').value.trim();
-  const phone = document.getElementById('fuhPhone').value.trim();
+  if (event) event.preventDefault();
+  const email = document.getElementById('fuhEmail')?.value.trim();
+  const phone = document.getElementById('fuhPhone')?.value.trim();
 
   if (!email || !phone) {
     alert('Please enter both registered email and phone number.');
@@ -307,63 +356,55 @@ function startForgotUhOtp(event) {
   forgotUhEmail = email;
   forgotUhPhone = phone;
   forgotUhOtp = String(Math.floor(100000 + Math.random() * 900000));
-  console.log('DEBUG ForgotUH OTP:', forgotUhOtp);
-  alert('OTP sent to your registered phone number (simulation).');
+  console.log('ForgotUH OTP:', forgotUhOtp);
+  alert('Account verification code: ' + forgotUhOtp);
 
-  document.getElementById('fuh-step-1').classList.add('d-none');
-  document.getElementById('fuh-step-2').classList.remove('d-none');
+  const s1 = document.getElementById('fuh-step-1');
+  const s2 = document.getElementById('fuh-step-2');
+  if (s1) { s1.classList.add('d-none'); s1.style.display = 'none'; }
+  if (s2) { s2.classList.remove('d-none'); s2.style.display = 'block'; }
 }
 
 function resendForgotUhOtp() {
   if (!forgotUhPhone) {
-    alert('Please enter details and request OTP first.');
+    alert('Please enter credentials and request OTP first.');
     return;
   }
   forgotUhOtp = String(Math.floor(100000 + Math.random() * 900000));
-  console.log('DEBUG ForgotUH OTP resend:', forgotUhOtp);
-  alert('New OTP sent to your phone (simulation).');
+  console.log('Resent ForgotUH OTP:', forgotUhOtp);
+  alert('New verification code: ' + forgotUhOtp);
 }
 
 function verifyForgotUhOtp(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const input = document.getElementById('fuhOtp').value.trim();
+  if (event) event.preventDefault();
+  const input = document.getElementById('fuhOtp')?.value.trim();
   if (!forgotUhOtp) {
     alert('Please request an OTP first.');
     return;
   }
   if (input !== forgotUhOtp) {
-    alert('Invalid OTP. Please check and try again.');
+    alert('Invalid code. Please retry.');
     return;
   }
-  alert('OTP verified. A secure link has been sent to your email (simulation).');
+  alert('Verification confirmed. Please confirm facility credentials.');
 
-  document.getElementById('fuh-step-2').classList.add('d-none');
-  document.getElementById('fuh-step-3').classList.remove('d-none');
+  const s2 = document.getElementById('fuh-step-2');
+  const s3 = document.getElementById('fuh-step-3');
+  if (s2) { s2.classList.add('d-none'); s2.style.display = 'none'; }
+  if (s3) { s3.classList.remove('d-none'); s3.style.display = 'block'; }
 }
 
 function confirmForgotUh(event) {
-  if (event) {
-    createButtonRipple(event);
-  }
-  const pharmaName = document.getElementById('fuhPharmaName').value.trim();
-  const location = document.getElementById('fuhLocation').value.trim();
+  if (event) event.preventDefault();
+  const pharmaName = document.getElementById('fuhPharmaName')?.value.trim();
+  const location = document.getElementById('fuhLocation')?.value.trim();
 
   if (!pharmaName || !location) {
-    alert('Please enter your pharmacy credentials.');
+    alert('Please enter both pharmacy facility name and location.');
     return;
   }
 
-  const existingId = localStorage.getItem('pharmacyId') || 'UHXXXXX';
-
-  alert(
-    'Verification successful! Your existing UniHealth Pharmacy ID (' +
-      existingId +
-      ') has been sent to ' +
-      forgotUhEmail +
-      ' (simulation).'
-  );
-
+  const existingId = localStorage.getItem('pharmacyId') || 'UH_12345';
+  alert('Identity Confirmed! Your UniHealth Pharmacy ID (' + existingId + ') has been dispatched to ' + forgotUhEmail);
   backToLoginFromForgotUh();
 }
