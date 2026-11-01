@@ -1,424 +1,640 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>UniHealth | Inventory</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>UniHealth · Medicine Inventory</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Clinical medicine inventory management with real-time stock sync, batch tracking, and expiry alerts.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230891b2'><path d='M19 10.5V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4.5'/><path d='M10 12h4m-2-2v4'/></svg>">
 </head>
 <body>
 <div class="app-shell">
 
-    <!-- Sidebar -->
-    <aside class="app-sidebar">
-        <div class="sidebar-brand">
-            <div class="brand-icon"><i class="bi bi-building-fill-check"></i></div>
-            <div>
-                <div class="brand-title">UniHealth</div>
-                <div class="brand-subtitle">Professional Portal</div>
-            </div>
-        </div>
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="app-sidebar" id="appSidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+          <path d="M12 8v8M8 12h8"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">UniHealth</div>
+        <div class="brand-subtitle">PHARMACY PORTAL</div>
+      </div>
+    </div>
 
-        <div class="sidebar-user mb-2">
-            <div class="sidebar-user-avatar">A</div>
-            <div>
-                <div class="fw-bold">Admin User</div>
-                <div class="brand-subtitle">Pharmacy ID: <span id="sidebarPhId">UH_12345</span></div>
-            </div>
-        </div>
+    <!-- Active User Profile -->
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">RX</div>
+      <div style="overflow: hidden;">
+        <div class="fw-bold" style="font-size: 0.9rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">Pharmacist Admin</div>
+        <div class="brand-subtitle">ID: <span id="sidebarPhId">UH_12345</span></div>
+      </div>
+    </div>
 
-        <button class="btn btn-sm btn-outline-danger w-100 mb-3" onclick="handleLogout()">
-            <i class="bi bi-box-arrow-right me-2"></i> Logout
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="inventory.html" class="sidebar-link active">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+          <path d="m3.3 7 8.7 5 8.7-5M12 22V12"></path>
+        </svg>
+        <span>Inventory Catalog</span>
+      </a>
+      <a href="reservations.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <path d="m9 16 2 2 4-4"></path>
+        </svg>
+        <span>Reservations &amp; Pickups</span>
+      </a>
+      <a href="alerts.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span>Stock Alerts</span>
+      </a>
+      <a href="analytics.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>Analytics &amp; Trust</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-danger-outline w-100" onclick="handleLogout()">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Sign Out Workspace
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="app-main">
+    <!-- Header Row -->
+    <div class="app-header-row">
+      <div>
+        <div class="brand-subtitle" style="color: var(--primary);">REALTIME REPOSITORY</div>
+        <h1 style="font-size: 1.85rem; margin: 4px 0 0;">Medicine Inventory</h1>
+      </div>
+      <div class="header-meta">
+        <button type="button" class="btn-icon" onclick="toggleTheme()" aria-label="Toggle theme">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m14.14-14.14l-1.41 1.41"></path>
+          </svg>
         </button>
+        <span class="live-pill">
+          <span class="live-dot"></span>
+          <span>LIVE</span>
+        </span>
+        <span id="invSync" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Synced --:--:--</span>
+      </div>
+    </div>
 
-        <nav class="sidebar-nav">
-            <a href="dashboard.html" class="sidebar-link">
-                <i class="bi bi-speedometer2"></i><span>Dashboard</span>
-            </a>
-            <a href="inventory.html" class="sidebar-link active">
-                <i class="bi bi-box-seam"></i><span>Inventory</span>
-            </a>
-            <a href="reservations.html" class="sidebar-link">
-                <i class="bi bi-calendar-check"></i><span>Reservations</span>
-            </a>
-            <a href="alerts.html" class="sidebar-link">
-                <i class="bi bi-bell"></i><span>Alerts</span>
-            </a>
-            <a href="analytics.html" class="sidebar-link">
-                <i class="bi bi-graph-up"></i><span>Analytics</span>
-            </a>
-        </nav>
-    </aside>
+    <!-- Inventory Toolbar -->
+    <section class="inv-toolbar">
+      <!-- Search Input -->
+      <div class="search-box">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="invSearch" placeholder="Search medicines by generic name, brand or company..." aria-label="Search medicines">
+      </div>
 
-    <!-- Main -->
-    <main class="app-main">
-        <div class="app-header-row">
-            <div>
-                <h2 class="fw-bold mb-0">Medicine Inventory</h2>
-                <p class="text-muted mb-0">Manage your pharmacy stock efficiently</p>
-            </div>
-            <div class="text-end small text-muted">
-                <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="toggleTheme()">
-                    <i class="bi bi-moon-stars"></i>
-                </button>
-                <span class="live-dot"></span> Live
-                &nbsp;<span id="invSync">Synced --:--:--</span>
-            </div>
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <!-- View Toggle Buttons -->
+        <div style="display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 3px;">
+          <button id="btnGrid" class="btn-outline-custom" style="padding: 6px 14px; min-height: 36px; border: none; font-size: 0.82rem; border-radius: var(--radius-sm); background: var(--primary); color: #fff;">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Grid
+          </button>
+          <button id="btnTable" class="btn-outline-custom" style="padding: 6px 14px; min-height: 36px; border: none; font-size: 0.82rem; border-radius: var(--radius-sm); background: transparent; color: var(--text-muted);">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+            Table
+          </button>
         </div>
 
-        <!-- Toolbar -->
-        <section class="inv-toolbar">
-            <div class="search-box">
-                <i class="bi bi-search"></i>
-                <input type="text" id="invSearch" placeholder="Search medicines...">
-            </div>
-            <div class="inv-toolbar-right">
-                <div class="view-toggle">
-                    <button class="view-btn active" id="btnGrid">Grid</button>
-                    <button class="view-btn" id="btnTable">Table</button>
-                </div>
-                <button class="btn-teal" data-bs-toggle="modal" data-bs-target="#addMedicineModal">
-                    <i class="bi bi-plus-lg"></i> Add New Medicine
-                </button>
-            </div>
-        </section>
+        <!-- Add New Medicine Button -->
+        <button class="btn-primary-custom" onclick="openAddModal()">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add New Medicine
+        </button>
+      </div>
+    </section>
 
-        <!-- Grid view -->
-        <section class="inv-grid" id="gridView"></section>
+    <!-- Category Filter Chips -->
+    <div class="category-chips" id="categoryChips">
+      <button class="cat-chip active" onclick="setCategoryFilter('All')">All Medicines</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Antibiotic')">Antibiotic</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Analgesic')">Analgesic</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Cardiac')">Cardiac</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Antidiabetic')">Antidiabetic</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Gastro')">Gastro</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Respiratory')">Respiratory</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Supplement')">Supplement</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Topical')">Topical</button>
+    </div>
 
-        <!-- Table view -->
-        <section class="panel d-none" id="tableView">
-            <div class="table-responsive">
-                <table class="table table-sm align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Medicine</th>
-                            <th>Company</th>
-                            <th>Qty</th>
-                            <th>Price / Unit</th>
-                            <th>Expiry</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="invTableBody"></tbody>
-                </table>
-            </div>
-        </section>
+    <!-- Grid View -->
+    <section class="inv-grid" id="gridView"></section>
 
-        <!-- Add Medicine Modal -->
-        <div class="modal fade" id="addMedicineModal" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Add New Medicine</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-                <div class="mb-2">
-                  <label class="form-label">Medicine Name</label>
-                  <input type="text" id="addName" class="form-control">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label">Company</label>
-                  <input type="text" id="addCompany" class="form-control">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label">Quantity</label>
-                  <input type="number" id="addQty" class="form-control">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label">Price per Unit</label>
-                  <input type="number" id="addPrice" class="form-control" step="0.01">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label">Expiry Date</label>
-                  <input type="month" id="addExpiry" class="form-control">
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-teal btn-sm" onclick="addMedicine()">Add Medicine</button>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- Table View -->
+    <section class="panel d-none" id="tableView" style="display: none; padding: 0; overflow: hidden;">
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Medicine</th>
+              <th>Manufacturer</th>
+              <th>Stock Units</th>
+              <th>Price / Unit</th>
+              <th>Expiry Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="invTableBody"></tbody>
+        </table>
+      </div>
+    </section>
 
-        <!-- Edit Medicine Modal -->
-        <div class="modal fade" id="editMedicineModal" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Edit Medicine</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-                <input type="hidden" id="editIndex">
-                <div class="mb-2">
-                  <label class="form-label">Medicine Name</label>
-                  <input type="text" id="editName" class="form-control">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label">Company</label>
-                  <input type="text" id="editCompany" class="form-control">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label">Quantity</label>
-                  <input type="number" id="editQty" class="form-control">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label">Price per Unit</label>
-                  <input type="number" id="editPrice" class="form-control" step="0.01">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label">Expiry Date</label>
-                  <input type="month" id="editExpiry" class="form-control">
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-teal btn-sm" onclick="saveEdit()">Save Changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-    </main>
+  </main>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- ==================== ADD MEDICINE MODAL ==================== -->
+<div id="addMedicineModal" class="custom-modal-backdrop d-none" style="display: none;">
+  <div class="custom-modal-dialog">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <div>
+        <span class="brand-subtitle" style="color: var(--primary);">CATALOG EXPANSION</span>
+        <h2 style="font-size: 1.4rem; margin: 2px 0 0;">Add New Medicine</h2>
+      </div>
+      <button type="button" class="btn-icon" onclick="closeAddModal()" aria-label="Close modal">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <form onsubmit="addMedicine(); return false;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div class="form-field-group" style="grid-column: 1 / -1; margin-bottom: 12px;">
+          <label class="form-label-custom" for="addName">Medicine Name &amp; Strength *</label>
+          <div class="form-input-box">
+            <input type="text" id="addName" placeholder="e.g. Paracetamol 500mg" required>
+          </div>
+        </div>
+        <div class="form-field-group" style="grid-column: 1 / -1; margin-bottom: 12px;">
+          <label class="form-label-custom" for="addCompany">Manufacturer / Brand *</label>
+          <div class="form-input-box">
+            <input type="text" id="addCompany" placeholder="e.g. Cipla / Sun Pharma" required>
+          </div>
+        </div>
+        <div class="form-field-group" style="margin-bottom: 12px;">
+          <label class="form-label-custom" for="addQty">Stock Quantity *</label>
+          <div class="form-input-box">
+            <input type="number" id="addQty" placeholder="e.g. 100" min="0" required>
+          </div>
+        </div>
+        <div class="form-field-group" style="margin-bottom: 12px;">
+          <label class="form-label-custom" for="addPrice">Unit Price (₹) *</label>
+          <div class="form-input-box">
+            <input type="number" id="addPrice" step="0.01" placeholder="e.g. 15.50" min="0" required>
+          </div>
+        </div>
+        <div class="form-field-group" style="grid-column: 1 / -1; margin-bottom: 12px;">
+          <label class="form-label-custom" for="addExpiry">Expiry Month &amp; Year *</label>
+          <div class="form-input-box">
+            <input type="month" id="addExpiry" required>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button type="button" class="btn-outline-custom" onclick="closeAddModal()">Cancel</button>
+        <button type="submit" class="btn-primary-custom">Save to Catalog</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== EDIT MEDICINE MODAL ==================== -->
+<div id="editMedicineModal" class="custom-modal-backdrop d-none" style="display: none;">
+  <div class="custom-modal-dialog">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <div>
+        <span class="brand-subtitle" style="color: var(--primary);">RECORD UPDATE</span>
+        <h2 style="font-size: 1.4rem; margin: 2px 0 0;">Edit Medicine Details</h2>
+      </div>
+      <button type="button" class="btn-icon" onclick="closeEditModal()" aria-label="Close modal">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <form onsubmit="saveEdit(); return false;">
+      <input type="hidden" id="editIndex">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div class="form-field-group" style="grid-column: 1 / -1; margin-bottom: 12px;">
+          <label class="form-label-custom" for="editName">Medicine Name</label>
+          <div class="form-input-box">
+            <input type="text" id="editName" required>
+          </div>
+        </div>
+        <div class="form-field-group" style="grid-column: 1 / -1; margin-bottom: 12px;">
+          <label class="form-label-custom" for="editCompany">Manufacturer</label>
+          <div class="form-input-box">
+            <input type="text" id="editCompany" required>
+          </div>
+        </div>
+        <div class="form-field-group" style="margin-bottom: 12px;">
+          <label class="form-label-custom" for="editQty">Stock Units</label>
+          <div class="form-input-box">
+            <input type="number" id="editQty" min="0" required>
+          </div>
+        </div>
+        <div class="form-field-group" style="margin-bottom: 12px;">
+          <label class="form-label-custom" for="editPrice">Unit Price (₹)</label>
+          <div class="form-input-box">
+            <input type="number" id="editPrice" step="0.01" min="0" required>
+          </div>
+        </div>
+        <div class="form-field-group" style="grid-column: 1 / -1; margin-bottom: 12px;">
+          <label class="form-label-custom" for="editExpiry">Expiry Month</label>
+          <div class="form-input-box">
+            <input type="month" id="editExpiry" required>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button type="button" class="btn-outline-custom" onclick="closeEditModal()">Cancel</button>
+        <button type="submit" class="btn-primary-custom">Update Details</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script src="auth-logic.js"></script>
+<script>
+  function openAddModal() {
+    const m = document.getElementById('addMedicineModal');
+    if (m) { m.classList.remove('d-none'); m.style.display = 'flex'; }
+  }
+  function closeAddModal() {
+    const m = document.getElementById('addMedicineModal');
+    if (m) { m.classList.add('d-none'); m.style.display = 'none'; }
+  }
+  function closeEditModal() {
+    const m = document.getElementById('editMedicineModal');
+    if (m) { m.classList.add('d-none'); m.style.display = 'none'; }
+  }
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, onValue, update, set, remove, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyArT58XNlHQyPyvji-e8HCEovVeYrhF7t8",
-        authDomain: "uni-health-64e06.firebaseapp.com",
-        databaseURL: "https://uni-health-64e06-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "uni-health-64e06",
-        storageBucket: "uni-health-64e06.firebasestorage.app",
-        messagingSenderId: "421283614648",
-        appId: "1:421283614648:web:4d4c894371c2a1e0b1494d",
-        measurementId: "G-CS84CLKB80"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const inventoryPath = 'pharmacies/pharmacy_001/inventory';
-
-    let medicines = [];
-
-    // 30 seed medicines
-    const seedData = {
-        paracetamol_500: { name:"Paracetamol 500mg", company:"Generic Healthcare", stock:120, price:15.50, expiry:"2026-10", category:"General", rx:false },
-        amoxicillin_250: { name:"Amoxicillin 250mg", company:"BioPharma Ltd", stock:25, price:45.00, expiry:"2025-08", category:"Antibiotic", rx:true },
-        metformin_850:   { name:"Metformin 850mg", company:"MediCorp", stock:90, price:22.75, expiry:"2026-03", category:"Antidiabetic", rx:true },
-        ciprofloxacin_500:{ name:"Ciprofloxacin 500mg", company:"HealthPlus Labs", stock:28, price:65.20, expiry:"2025-07", category:"Antibiotic", rx:true },
-        ibuprofen_400:   { name:"Ibuprofen 400mg", company:"Advil", stock:320, price:18.00, expiry:"2025-11", category:"Analgesic", rx:false },
-        aspirin_75:      { name:"Aspirin 75mg", company:"Bayer", stock:200, price:12.50, expiry:"2025-09", category:"Cardiac", rx:true },
-        cough_syrup:     { name:"Cough Syrup", company:"Robitussin", stock:60, price:80.00, expiry:"2024-12", category:"Respiratory", rx:false },
-        vitamin_c_1000:  { name:"Vitamin C 1000mg", company:"Generic", stock:500, price:10.00, expiry:"2026-01", category:"Supplement", rx:false },
-        antibiotic_cream:{ name:"Antibiotic Cream", company:"Neosporin", stock:40, price:55.00, expiry:"2024-10", category:"Topical", rx:false },
-        insulin_pen:     { name:"Insulin Pen", company:"NovoNordisk", stock:75, price:450.00, expiry:"2025-06", category:"Antidiabetic", rx:true },
-        omeprazole_20:   { name:"Omeprazole 20mg", company:"AstraPharma", stock:300, price:30.00, expiry:"2025-08", category:"Gastro", rx:true },
-        losartan_50:     { name:"Losartan 50mg", company:"CardioCare", stock:260, price:25.00, expiry:"2025-04", category:"Cardiac", rx:true },
-        atorvastatin_10: { name:"Atorvastatin 10mg", company:"CholestMed", stock:190, price:28.00, expiry:"2025-03", category:"Lipid", rx:true },
-        levocetirizine_5:{ name:"Levocetirizine 5mg", company:"AllerFree", stock:110, price:15.00, expiry:"2025-12", category:"Allergy", rx:false },
-        azithromycin_500:{ name:"Azithromycin 500mg", company:"Macrolab", stock:45, price:70.00, expiry:"2024-09", category:"Antibiotic", rx:true },
-        dolo_650:        { name:"Dolo 650", company:"Micro Labs", stock:510, price:18.00, expiry:"2026-02", category:"Analgesic", rx:false },
-        ranitidine_150:  { name:"Ranitidine 150mg", company:"AcidCare", stock:140, price:16.00, expiry:"2024-11", category:"Gastro", rx:false },
-        salbutamol_inhaler:{ name:"Salbutamol Inhaler", company:"Respira", stock:55, price:220.00, expiry:"2025-05", category:"Respiratory", rx:true },
-        calcium_d3:      { name:"Calcium + D3", company:"BonePlus", stock:380, price:22.00, expiry:"2026-04", category:"Supplement", rx:false },
-        multivitamin_syrup:{ name:"Multivitamin Syrup", company:"NutriLife", stock:70, price:95.00, expiry:"2025-07", category:"Supplement", rx:false },
-        pantoprazole_40: { name:"Pantoprazole 40mg", company:"GastriHeal", stock:210, price:32.00, expiry:"2026-01", category:"Gastro", rx:true },
-        telmisartan_40:  { name:"Telmisartan 40mg", company:"Hyperten", stock:160, price:27.00, expiry:"2025-10", category:"Cardiac", rx:true },
-        amlodipine_5:    { name:"Amlodipine 5mg", company:"VasoCare", stock:230, price:19.00, expiry:"2025-08", category:"Cardiac", rx:true },
-        clopidogrel_75:  { name:"Clopidogrel 75mg", company:"ThromboSafe", stock:130, price:35.00, expiry:"2025-12", category:"Cardiac", rx:true },
-        pregabalin_75:   { name:"Pregabalin 75mg", company:"NeuroLife", stock:95, price:65.00, expiry:"2026-06", category:"Neuro", rx:true },
-        gabapentin_300:  { name:"Gabapentin 300mg", company:"NeuroCare", stock:80, price:60.00, expiry:"2026-03", category:"Neuro", rx:true },
-        betadine_solution:{ name:"Betadine Solution", company:"MediClean", stock:60, price:50.00, expiry:"2025-09", category:"Topical", rx:false },
-        clotrimazole_cream:{ name:"Clotrimazole Cream", company:"MycoDerm", stock:75, price:45.00, expiry:"2025-11", category:"Topical", rx:false },
-        ors_solution:    { name:"ORS Solution", company:"Rehydra", stock:150, price:20.00, expiry:"2024-12", category:"Electrolyte", rx:false }
-    };
-
-    // Seed only if empty
-    async function seedIfEmpty() {
-        const invRef = ref(db, inventoryPath);
-        const snap = await get(invRef);
-        if (!snap.exists()) {
-            await set(invRef, seedData);
-        }
-    }
-
-    await seedIfEmpty();
-
-    // Live listener
-    onValue(ref(db, inventoryPath), (snapshot) => {
-        const data = snapshot.val();
-        medicines = data
-            ? Object.keys(data).map(key => ({ id: key, ...data[key] }))
-            : [];
-        renderInventory();
-        updateInvTime();
+  let selectedCategory = 'All';
+  function setCategoryFilter(cat) {
+    selectedCategory = cat;
+    document.querySelectorAll('.cat-chip').forEach(c => {
+      if (c.textContent.trim().toLowerCase() === cat.toLowerCase() || (cat === 'All' && c.textContent.includes('All'))) {
+        c.classList.add('active');
+      } else {
+        c.classList.remove('active');
+      }
     });
+    if (window.renderInventory) window.renderInventory();
+  }
+</script>
 
-    function formatExpiry(m) {
-        if (!m) return "";
-        const [y, mo] = m.split("-");
-        const date = new Date(Number(y), Number(mo)-1, 1);
-        return date.toLocaleString('en-US', {month:'short', year:'numeric'});
+<!-- Firebase Realtime DB Module -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, set, get, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyArT58XNlHQyPyvji-e8HCEovVeYrhF7t8",
+    authDomain: "uni-health-64e06.firebaseapp.com",
+    databaseURL: "https://uni-health-64e06-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "uni-health-64e06",
+    storageBucket: "uni-health-64e06.firebasestorage.app",
+    messagingSenderId: "421283614648",
+    appId: "1:421283614648:web:4d4c894371c2a1e0b1494d",
+    measurementId: "G-CS84CLKB80"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const inventoryPath = 'pharmacies/pharmacy_001/inventory';
+
+  let medicines = [];
+
+  const seedData = {
+    paracetamol_500: { name:"Paracetamol 500mg", company:"Generic Healthcare", stock:120, price:15.50, expiry:"2026-10", category:"General", rx:false },
+    amoxicillin_250: { name:"Amoxicillin 250mg", company:"BioPharma Ltd", stock:25, price:45.00, expiry:"2025-08", category:"Antibiotic", rx:true },
+    metformin_850:   { name:"Metformin 850mg", company:"MediCorp", stock:90, price:22.75, expiry:"2026-03", category:"Antidiabetic", rx:true },
+    ciprofloxacin_500:{ name:"Ciprofloxacin 500mg", company:"HealthPlus Labs", stock:28, price:65.20, expiry:"2025-07", category:"Antibiotic", rx:true },
+    ibuprofen_400:   { name:"Ibuprofen 400mg", company:"Advil", stock:320, price:18.00, expiry:"2025-11", category:"Analgesic", rx:false },
+    aspirin_75:      { name:"Aspirin 75mg", company:"Bayer", stock:200, price:12.50, expiry:"2025-09", category:"Cardiac", rx:true },
+    cough_syrup:     { name:"Cough Syrup", company:"Robitussin", stock:60, price:80.00, expiry:"2024-12", category:"Respiratory", rx:false },
+    vitamin_c_1000:  { name:"Vitamin C 1000mg", company:"Generic", stock:500, price:10.00, expiry:"2026-01", category:"Supplement", rx:false },
+    antibiotic_cream:{ name:"Antibiotic Cream", company:"Neosporin", stock:40, price:55.00, expiry:"2024-10", category:"Topical", rx:false },
+    insulin_pen:     { name:"Insulin Pen", company:"NovoNordisk", stock:75, price:450.00, expiry:"2025-06", category:"Antidiabetic", rx:true },
+    omeprazole_20:   { name:"Omeprazole 20mg", company:"AstraPharma", stock:300, price:30.00, expiry:"2025-08", category:"Gastro", rx:true },
+    losartan_50:     { name:"Losartan 50mg", company:"CardioCare", stock:260, price:25.00, expiry:"2025-04", category:"Cardiac", rx:true },
+    atorvastatin_10: { name:"Atorvastatin 10mg", company:"CholestMed", stock:190, price:28.00, expiry:"2025-03", category:"Lipid", rx:true },
+    levocetirizine_5:{ name:"Levocetirizine 5mg", company:"AllerFree", stock:110, price:15.00, expiry:"2025-12", category:"Allergy", rx:false },
+    azithromycin_500:{ name:"Azithromycin 500mg", company:"Macrolab", stock:45, price:70.00, expiry:"2024-09", category:"Antibiotic", rx:true },
+    dolo_650:        { name:"Dolo 650", company:"Micro Labs", stock:510, price:18.00, expiry:"2026-02", category:"Analgesic", rx:false },
+    ranitidine_150:  { name:"Ranitidine 150mg", company:"AcidCare", stock:140, price:16.00, expiry:"2024-11", category:"Gastro", rx:false },
+    salbutamol_inhaler:{ name:"Salbutamol Inhaler", company:"Respira", stock:55, price:220.00, expiry:"2025-05", category:"Respiratory", rx:true },
+    calcium_d3:      { name:"Calcium + D3", company:"BonePlus", stock:380, price:22.00, expiry:"2026-04", category:"Supplement", rx:false },
+    multivitamin_syrup:{ name:"Multivitamin Syrup", company:"NutriLife", stock:70, price:95.00, expiry:"2025-07", category:"Supplement", rx:false },
+    pantoprazole_40: { name:"Pantoprazole 40mg", company:"GastriHeal", stock:210, price:32.00, expiry:"2026-01", category:"Gastro", rx:true },
+    telmisartan_40:  { name:"Telmisartan 40mg", company:"Hyperten", stock:160, price:27.00, expiry:"2025-10", category:"Cardiac", rx:true },
+    amlodipine_5:    { name:"Amlodipine 5mg", company:"VasoCare", stock:230, price:19.00, expiry:"2025-08", category:"Cardiac", rx:true },
+    clopidogrel_75:  { name:"Clopidogrel 75mg", company:"ThromboSafe", stock:130, price:35.00, expiry:"2025-12", category:"Cardiac", rx:true },
+    pregabalin_75:   { name:"Pregabalin 75mg", company:"NeuroLife", stock:95, price:65.00, expiry:"2026-06", category:"Neuro", rx:true },
+    gabapentin_300:  { name:"Gabapentin 300mg", company:"NeuroCare", stock:80, price:60.00, expiry:"2026-03", category:"Neuro", rx:true },
+    betadine_solution:{ name:"Betadine Solution", company:"MediClean", stock:60, price:50.00, expiry:"2025-09", category:"Topical", rx:false },
+    clotrimazole_cream:{ name:"Clotrimazole Cream", company:"MycoDerm", stock:75, price:45.00, expiry:"2025-11", category:"Topical", rx:false },
+    ors_solution:    { name:"ORS Solution", company:"Rehydra", stock:150, price:20.00, expiry:"2024-12", category:"Electrolyte", rx:false }
+  };
+
+  async function seedIfEmpty() {
+    const invRef = ref(db, inventoryPath);
+    const snap = await get(invRef);
+    if (!snap.exists()) {
+      await set(invRef, seedData);
+    }
+  }
+
+  await seedIfEmpty();
+
+  onValue(ref(db, inventoryPath), (snapshot) => {
+    const data = snapshot.val();
+    medicines = data
+      ? Object.keys(data).map(key => ({ id: key, ...data[key] }))
+      : [];
+    renderInventory();
+    updateInvTime();
+  });
+
+  function formatExpiry(m) {
+    if (!m) return "—";
+    const [y, mo] = m.split("-");
+    const date = new Date(Number(y), Number(mo)-1, 1);
+    return date.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+  }
+
+  window.renderInventory = function() {
+    const grid = document.getElementById('gridView');
+    const tbody = document.getElementById('invTableBody');
+    const search = (document.getElementById('invSearch')?.value || '').toLowerCase();
+
+    if (grid) grid.innerHTML = "";
+    if (tbody) tbody.innerHTML = "";
+
+    medicines.forEach((m) => {
+      const name = m.name || "";
+      const company = m.company || "";
+      const stock = Number(m.stock || 0);
+      const price = Number(m.price || 0);
+      const category = m.category || "General";
+      const rx = Boolean(m.rx);
+
+      if (search && !name.toLowerCase().includes(search) && !company.toLowerCase().includes(search)) return;
+      if (selectedCategory && selectedCategory !== 'All' && category.toLowerCase() !== selectedCategory.toLowerCase()) return;
+
+      const isLow = stock < 30;
+      const isOut = stock === 0;
+      const statusClass = isOut ? "outstock" : (isLow ? "lowstock" : "instock");
+      const statusText = isOut ? "Out of Stock" : (isLow ? "Low Stock (<30)" : "In Stock");
+      const meterPercent = Math.min(100, Math.round((stock / 150) * 100));
+
+      // Grid card
+      if (grid) {
+        const card = document.createElement('article');
+        card.className = "med-card";
+        card.innerHTML = `
+          <div class="med-card-header">
+            <div>
+              <h3 class="med-name">${name}</h3>
+              <div class="med-company">${company}</div>
+            </div>
+            <span class="badge-status ${statusClass}">${statusText}</span>
+          </div>
+
+          <div class="med-chips-row">
+            ${rx ? '<span class="badge-pill badge-rx">Rx Required</span>' : '<span class="badge-pill badge-otc">OTC Available</span>'}
+            <span class="badge-pill badge-category">${category}</span>
+          </div>
+
+          <div class="med-stock-row">
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600;">
+              <span class="text-muted">Stock Level</span>
+              <span class="${isLow ? 'text-warning' : ''}">${stock} units</span>
+            </div>
+            <div class="stock-meter">
+              <div class="stock-meter-bar ${isOut ? 'out' : (isLow ? 'low' : '')}" style="width: ${meterPercent}%;"></div>
+            </div>
+
+            <div class="med-meta-values">
+              <span class="med-price">₹${price.toFixed(2)}<small style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted);">/unit</small></span>
+              <span class="med-expiry">Exp: ${formatExpiry(m.expiry)}</span>
+            </div>
+
+            <div class="med-card-actions">
+              <button class="btn-outline-custom" style="flex: 1; padding: 6px 10px; font-size: 0.82rem; min-height: 36px;" onclick="openEdit('${m.id}')">
+                <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                Edit
+              </button>
+              <button class="btn-danger-outline" style="padding: 6px 12px; font-size: 0.82rem; min-height: 36px;" onclick="deleteMedicine('${m.id}')" title="Delete medicine">
+                <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+
+      // Table row
+      if (tbody) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${name}</strong></td>
+          <td>${company}</td>
+          <td><span class="${isLow ? 'text-warning fw-bold' : ''}">${stock} units</span></td>
+          <td>₹${price.toFixed(2)}</td>
+          <td>${formatExpiry(m.expiry)}</td>
+          <td><span class="badge-status ${statusClass}">${statusText}</span></td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-outline-custom" style="padding: 4px 10px; font-size: 0.78rem; min-height: 32px;" onclick="openEdit('${m.id}')">Edit</button>
+              <button class="btn-danger-outline" style="padding: 4px 10px; font-size: 0.78rem; min-height: 32px;" onclick="deleteMedicine('${m.id}')">Delete</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+    });
+  };
+
+  window.addMedicine = function() {
+    const name = document.getElementById('addName').value.trim();
+    const company = document.getElementById('addCompany').value.trim();
+    const stock = Number(document.getElementById('addQty').value);
+    const price = Number(document.getElementById('addPrice').value);
+    const expiry = document.getElementById('addExpiry').value;
+
+    if (!name || !company || isNaN(stock) || isNaN(price) || !expiry) {
+      alert("Please fill all required fields with valid entries.");
+      return;
     }
 
-    window.renderInventory = function() {
-        const grid = document.getElementById('gridView');
-        const tbody = document.getElementById('invTableBody');
-        const search = document.getElementById('invSearch').value.toLowerCase();
+    const newId = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
 
-        grid.innerHTML = "";
-        tbody.innerHTML = "";
+    set(ref(db, `${inventoryPath}/${newId}`), {
+      name, company, stock, price, expiry,
+      category: selectedCategory !== 'All' ? selectedCategory : "General",
+      rx: false
+    }).then(() => {
+      document.getElementById('addName').value = "";
+      document.getElementById('addCompany').value = "";
+      document.getElementById('addQty').value = "";
+      document.getElementById('addPrice').value = "";
+      document.getElementById('addExpiry').value = "";
+      closeAddModal();
+      showNotification('Added ' + name + ' to inventory.');
+    });
+  };
 
-        medicines.forEach((m) => {
-            const name = m.name || "";
-            const company = m.company || "";
-            const stock = Number(m.stock || 0);
-            const price = Number(m.price || 0);
+  window.openEdit = function(id) {
+    const m = medicines.find(item => item.id === id);
+    if (!m) return;
+    document.getElementById('editIndex').value = id;
+    document.getElementById('editName').value = m.name;
+    document.getElementById('editCompany').value = m.company;
+    document.getElementById('editQty').value = m.stock;
+    document.getElementById('editPrice').value = m.price;
+    document.getElementById('editExpiry').value = m.expiry;
 
-            if (search && !name.toLowerCase().includes(search) && !company.toLowerCase().includes(search)) return;
-
-            const badgeClass = stock > 30 ? "badge-success-soft" : "badge-warning-soft";
-            const statusText = stock > 30 ? "In Stock" : (stock > 0 ? "Low Stock" : "Out of Stock");
-            const qtyClass = stock < 30 ? "text-warning" : "";
-
-            const card = document.createElement('article');
-            card.className = "med-card";
-            card.innerHTML = `
-                <div class="med-card-header">
-                    <h3 class="med-name">${name}</h3>
-                    <span class="badge-pill ${badgeClass}">${statusText}</span>
-                </div>
-                <p class="med-sub">${company}</p>
-                <div class="med-row">
-                    <span class="med-price">₹${price.toFixed(2)}/unit</span>
-                    <span class="med-qty ${qtyClass}">${stock} units</span>
-                </div>
-                <div class="med-row">
-                    <span class="med-exp">${formatExpiry(m.expiry)}</span>
-                </div>
-                <div class="d-flex gap-2 mt-2">
-                    <button class="med-edit-btn" onclick="openEdit('${m.id}')">
-                        <i class="bi bi-pencil"></i> Edit
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteMedicine('${m.id}')">
-                        <i class="bi bi-trash"></i> Delete
-                    </button>
-                </div>
-            `;
-            grid.appendChild(card);
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${name}</td>
-                <td>${company}</td>
-                <td>${stock}</td>
-                <td>₹${price.toFixed(2)}</td>
-                <td>${formatExpiry(m.expiry)}</td>
-                <td>${statusText}</td>
-                <td>
-                    <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEdit('${m.id}')">Edit</button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteMedicine('${m.id}')">Delete</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    };
-
-    window.addMedicine = function() {
-        const name = document.getElementById('addName').value.trim();
-        const company = document.getElementById('addCompany').value.trim();
-        const stock = Number(document.getElementById('addQty').value);
-        const price = Number(document.getElementById('addPrice').value);
-        const expiry = document.getElementById('addExpiry').value;
-
-        if (!name || !company || !stock || !price || !expiry) {
-            alert("Please fill all fields.");
-            return;
-        }
-
-        const newId = name.toLowerCase().replace(/\s+/g, '_');
-
-        set(ref(db, `${inventoryPath}/${newId}`), {
-            name, company, stock, price, expiry,
-            category: "General",
-            rx: false
-        }).then(() => {
-            document.getElementById('addName').value = "";
-            document.getElementById('addCompany').value = "";
-            document.getElementById('addQty').value = "";
-            document.getElementById('addPrice').value = "";
-            document.getElementById('addExpiry').value = "";
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addMedicineModal'));
-            modal.hide();
-        });
-    };
-
-    window.openEdit = function(id) {
-        const m = medicines.find(item => item.id === id);
-        if (!m) return;
-        document.getElementById('editIndex').value = id;
-        document.getElementById('editName').value = m.name;
-        document.getElementById('editCompany').value = m.company;
-        document.getElementById('editQty').value = m.stock;
-        document.getElementById('editPrice').value = m.price;
-        document.getElementById('editExpiry').value = m.expiry;
-        const modal = new bootstrap.Modal(document.getElementById('editMedicineModal'));
-        modal.show();
-    };
-
-    window.saveEdit = function() {
-        const id = document.getElementById('editIndex').value;
-        const updates = {
-            name: document.getElementById('editName').value.trim(),
-            company: document.getElementById('editCompany').value.trim(),
-            stock: Number(document.getElementById('editQty').value),
-            price: Number(document.getElementById('editPrice').value),
-            expiry: document.getElementById('editExpiry').value
-        };
-
-        update(ref(db, `${inventoryPath}/${id}`), updates).then(() => {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('editMedicineModal'));
-            modal.hide();
-        });
-    };
-
-    window.deleteMedicine = function(id) {
-        if (!confirm("Are you sure you want to delete this medicine from inventory?")) return;
-        remove(ref(db, `${inventoryPath}/${id}`));
-    };
-
-    document.getElementById('btnGrid').onclick = () => {
-        document.getElementById('gridView').classList.remove('d-none');
-        document.getElementById('tableView').classList.add('d-none');
-        document.getElementById('btnGrid').classList.add('active');
-        document.getElementById('btnTable').classList.remove('active');
-    };
-    document.getElementById('btnTable').onclick = () => {
-        document.getElementById('gridView').classList.add('d-none');
-        document.getElementById('tableView').classList.remove('d-none');
-        document.getElementById('btnTable').classList.add('active');
-        document.getElementById('btnGrid').classList.remove('active');
-    };
-
-    document.getElementById('invSearch').addEventListener('input', renderInventory);
-
-    function updateInvTime() {
-        const now = new Date();
-        document.getElementById('invSync').textContent =
-            'Synced ' + now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    const modal = document.getElementById('editMedicineModal');
+    if (modal) {
+      modal.classList.remove('d-none');
+      modal.style.display = 'flex';
     }
+  };
+
+  window.saveEdit = function() {
+    const id = document.getElementById('editIndex').value;
+    const updates = {
+      name: document.getElementById('editName').value.trim(),
+      company: document.getElementById('editCompany').value.trim(),
+      stock: Number(document.getElementById('editQty').value),
+      price: Number(document.getElementById('editPrice').value),
+      expiry: document.getElementById('editExpiry').value
+    };
+
+    update(ref(db, `${inventoryPath}/${id}`), updates).then(() => {
+      closeEditModal();
+      showNotification('Updated ' + updates.name);
+    });
+  };
+
+  window.deleteMedicine = function(id) {
+    if (!confirm("Are you sure you want to remove this medicine from inventory?")) return;
+    remove(ref(db, `${inventoryPath}/${id}`)).then(() => {
+      showNotification('Medicine removed from catalog.');
+    });
+  };
+
+  const btnGrid = document.getElementById('btnGrid');
+  const btnTable = document.getElementById('btnTable');
+  const gridView = document.getElementById('gridView');
+  const tableView = document.getElementById('tableView');
+
+  if (btnGrid && btnTable) {
+    btnGrid.onclick = () => {
+      gridView.classList.remove('d-none');
+      gridView.style.display = 'grid';
+      tableView.classList.add('d-none');
+      tableView.style.display = 'none';
+      btnGrid.style.background = 'var(--primary)';
+      btnGrid.style.color = '#fff';
+      btnTable.style.background = 'transparent';
+      btnTable.style.color = 'var(--text-muted)';
+    };
+    btnTable.onclick = () => {
+      gridView.classList.add('d-none');
+      gridView.style.display = 'none';
+      tableView.classList.remove('d-none');
+      tableView.style.display = 'block';
+      btnTable.style.background = 'var(--primary)';
+      btnTable.style.color = '#fff';
+      btnGrid.style.background = 'transparent';
+      btnGrid.style.color = 'var(--text-muted)';
+    };
+  }
+
+  document.getElementById('invSearch')?.addEventListener('input', () => {
+    window.renderInventory();
+  });
+
+  function updateInvTime() {
+    const now = new Date();
+    const el = document.getElementById('invSync');
+    if (el) {
+      el.textContent = 'Synced ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+  }
+  updateInvTime();
 </script>
 
 </body>
