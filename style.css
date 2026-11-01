@@ -1070,6 +1070,33 @@ button {
   box-shadow: var(--shadow-lg);
 }
 
+/* Mobile Drawer Navigation & Overlay */
+.mobile-toggle-btn {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-main);
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 17, 32, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 35;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
 /* Utilities & Display Helpers */
 .d-none { display: none !important; }
 .d-flex { display: flex !important; }
@@ -1085,6 +1112,9 @@ button {
 
 /* Responsive Media Queries */
 @media (max-width: 992px) {
+  .mobile-toggle-btn {
+    display: inline-flex;
+  }
   .app-sidebar {
     transform: translateX(-100%);
     box-shadow: var(--shadow-lg);

@@ -185,6 +185,23 @@ function handleLogout() {
   window.location.href = 'index.html';
 }
 
+// ---------- MOBILE SIDEBAR DRAWER ----------
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById('appSidebar');
+  let overlay = document.getElementById('sidebarOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'sidebarOverlay';
+    overlay.className = 'sidebar-overlay';
+    overlay.onclick = toggleMobileSidebar;
+    document.body.appendChild(overlay);
+  }
+  if (sidebar) {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active', sidebar.classList.contains('open'));
+  }
+}
+
 // Global Enter Key Handler
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Enter') {
