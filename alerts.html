@@ -1,388 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>UniHealth | Alerts</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .alert-section-header{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-        }
-        .alert-section-title{
-            font-size:.95rem;
-            font-weight:700;
-            display:flex;
-            align-items:center;
-            gap:8px;
-        }
-        .alert-section-sub{
-            font-size:.8rem;
-            color:#6b7280;
-        }
-        .chip-warning{
-            color:#d97706;
-            background:#fffbeb;
-            border-radius:999px;
-            padding:3px 10px;
-            font-size:.72rem;
-            border:1px solid #fed7aa;
-        }
-        .chip-critical{
-            color:#b91c1c;
-            background:#fee2e2;
-            border-radius:999px;
-            padding:3px 10px;
-            font-size:.72rem;
-            border:1px solid #fecaca;
-        }
-        .chip-medium{
-            color:#92400e;
-            background:#fef3c7;
-            border-radius:999px;
-            padding:3px 10px;
-            font-size:.72rem;
-            border:1px solid #fde68a;
-        }
-        .alert-list-card{
-            background:#fff;
-            border-radius:18px;
-            border:1px solid #e5e7eb;
-            padding:14px 18px;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-        }
-        .alert-list-main{
-            display:flex;
-            align-items:flex-start;
-            gap:12px;
-        }
-        .alert-icon-pill{
-            width:36px;
-            height:36px;
-            border-radius:12px;
-            background:#fff7ed;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            color:#f97316;
-            flex-shrink:0;
-        }
-        .alert-medicine{
-            font-size:.95rem;
-            font-weight:700;
-        }
-        .alert-brand{
-            font-size:.8rem;
-            color:#6b7280;
-        }
-        .alert-meta{
-            font-size:.8rem;
-            color:#4b5563;
-        }
-        .alert-meta span+span{
-            margin-left:10px;
-        }
-        .alert-right{
-            display:flex;
-            align-items:center;
-            gap:10px;
-        }
-        .btn-outline-soft{
-            border-radius:999px;
-            border:1px solid #e5e7eb;
-            background:#fff;
-            font-size:.78rem;
-            padding:5px 12px;
-        }
-        .btn-pill-primary{
-            border-radius:999px;
-            border:none;
-            background:#0f766e;
-            color:#fff;
-            font-size:.78rem;
-            padding:7px 14px;
-        }
-        .suggest-panel{
-            background:#ecfdf3;
-            border-radius:18px;
-            border:1px solid #bbf7d0;
-            padding:16px 18px;
-            margin-top:18px;
-        }
-        .suggest-item{
-            background:#f0fdf4;
-            border-radius:14px;
-            padding:12px 16px;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-top:10px;
-        }
-        .suggest-name{
-            font-size:.9rem;
-            font-weight:600;
-        }
-        .suggest-sub{
-            font-size:.8rem;
-            color:#6b7280;
-        }
-        .suggest-tag{
-            font-size:.78rem;
-            color:#16a34a;
-            font-weight:700;
-        }
-        .btn-apply{
-            border-radius:999px;
-            border:none;
-            background:#10b981;
-            color:#fff;
-            font-size:.78rem;
-            padding:7px 13px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>UniHealth · Clinical Stock Alerts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Automated clinical inventory alerts for expiring medicines, critical stockouts, and intelligent reorder suggestions.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230891b2'><path d='M19 10.5V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4.5'/><path d='M10 12h4m-2-2v4'/></svg>">
 </head>
 <body>
 <div class="app-shell">
 
-    <aside class="app-sidebar">
-        <div class="sidebar-brand">
-            <div class="brand-icon"><i class="bi bi-building-fill-check"></i></div>
-            <div>
-                <div class="brand-title">UniHealth</div>
-                <div class="brand-subtitle">Professional Portal</div>
-            </div>
-        </div>
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="app-sidebar" id="appSidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+          <path d="M12 8v8M8 12h8"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">UniHealth</div>
+        <div class="brand-subtitle">PHARMACY PORTAL</div>
+      </div>
+    </div>
 
-        <div class="sidebar-user mb-2">
-            <div class="sidebar-user-avatar">A</div>
-            <div>
-                <div class="fw-bold">Admin User</div>
-                <div class="brand-subtitle">Pharmacy ID: <span id="sidebarPhId">UH_12345</span></div>
-            </div>
-        </div>
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">RX</div>
+      <div style="overflow: hidden;">
+        <div class="fw-bold" style="font-size: 0.9rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">Pharmacist Admin</div>
+        <div class="brand-subtitle">ID: <span id="sidebarPhId">UH_12345</span></div>
+      </div>
+    </div>
 
-        <button class="btn btn-sm btn-outline-danger w-100 mb-3" onclick="handleLogout()">
-            <i class="bi bi-box-arrow-right me-2"></i> Logout
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="inventory.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+          <path d="m3.3 7 8.7 5 8.7-5M12 22V12"></path>
+        </svg>
+        <span>Inventory Catalog</span>
+      </a>
+      <a href="reservations.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <path d="m9 16 2 2 4-4"></path>
+        </svg>
+        <span>Reservations &amp; Pickups</span>
+      </a>
+      <a href="alerts.html" class="sidebar-link active">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span>Stock Alerts</span>
+      </a>
+      <a href="analytics.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>Analytics &amp; Trust</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-danger-outline w-100" onclick="handleLogout()">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Sign Out Workspace
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="app-main">
+    <div class="app-header-row">
+      <div>
+        <div class="brand-subtitle" style="color: var(--primary);">CLINICAL SAFETY</div>
+        <h1 style="font-size: 1.85rem; margin: 4px 0 0;">Stock Alerts &amp; Triage</h1>
+      </div>
+      <div class="header-meta">
+        <button type="button" class="btn-icon" onclick="toggleTheme()" aria-label="Toggle theme">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m14.14-14.14l-1.41 1.41"></path>
+          </svg>
         </button>
+        <span class="live-pill">
+          <span class="live-dot"></span>
+          <span>LIVE MONITOR</span>
+        </span>
+      </div>
+    </div>
 
-        <nav class="sidebar-nav">
-            <a href="dashboard.html" class="sidebar-link">
-                <i class="bi bi-speedometer2"></i><span>Dashboard</span>
-            </a>
-            <a href="inventory.html" class="sidebar-link">
-                <i class="bi bi-box-seam"></i><span>Inventory</span>
-            </a>
-            <a href="reservations.html" class="sidebar-link">
-                <i class="bi bi-calendar-check"></i><span>Reservations</span>
-            </a>
-            <a href="alerts.html" class="sidebar-link active">
-                <i class="bi bi-bell"></i><span>Alerts</span>
-            </a>
-            <a href="analytics.html" class="sidebar-link">
-                <i class="bi bi-graph-up"></i><span>Analytics</span>
-            </a>
-        </nav>
-    </aside>
-
-    <main class="app-main">
-        <div class="app-header-row">
-            <div>
-                <h2 class="fw-bold mb-0">Alerts &amp; Notifications</h2>
-                <p class="text-muted mb-0">Monitor stock levels and expiring medicines</p>
-            </div>
-            <div class="text-end small text-muted">
-                <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="toggleTheme()">
-                    <i class="bi bi-moon-stars"></i>
-                </button>
-                <span class="live-dot"></span> Live
-            </div>
+    <!-- Alert Summary Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div>
+          <div class="stat-title">Low Stock Batches</div>
+          <div class="stat-value" style="color: var(--warning);">2</div>
+          <div class="stat-badge text-warning">● Below Minimum Safety Par</div>
         </div>
+        <div class="stat-icon-wrapper warning">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </div>
+      </div>
 
-        <section class="summary-grid">
-            <div class="summary-card">
-                <div>
-                    <div class="summary-label">Low Stock Items</div>
-                    <h2>4</h2>
-                    <div class="summary-note">Requires immediate attention</div>
-                </div>
-                <div class="summary-icon">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                </div>
-            </div>
-            <div class="summary-card">
-                <div>
-                    <div class="summary-label">Expiring Soon</div>
-                    <h2>4</h2>
-                    <div class="summary-note">Within next 30 days</div>
-                </div>
-                <div class="summary-icon red">
-                    <i class="bi bi-clock-history"></i>
-                </div>
-            </div>
-            <div class="summary-card">
-                <div>
-                    <div class="summary-label">Action Suggestions</div>
-                    <h2>3</h2>
-                    <div class="summary-note">To reduce wastage</div>
-                </div>
-                <div class="summary-icon green">
-                    <i class="bi bi-arrow-trend-down"></i>
-                </div>
-            </div>
-        </section>
+      <div class="stat-card">
+        <div>
+          <div class="stat-title">Expiring In 30 Days</div>
+          <div class="stat-value" style="color: var(--danger);">4</div>
+          <div class="stat-badge text-danger">● Batch Recall / Clearance</div>
+        </div>
+        <div class="stat-icon-wrapper danger">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+      </div>
 
-        <section class="panel">
-            <div class="alert-section-header">
-                <div>
-                    <div class="alert-section-title">
-                        <span class="text-warning"><i class="bi bi-exclamation-triangle-fill"></i></span>
-                        Low Stock Alerts
-                    </div>
-                    <div class="alert-section-sub">Medicines that need reordering</div>
-                </div>
-                <button class="btn-outline-soft">
-                    <i class="bi bi-box-seam"></i> View Inventory
-                </button>
-            </div>
-            <div class="vstack gap-2" id="lowStockContainer"></div>
-        </section>
+      <div class="stat-card">
+        <div>
+          <div class="stat-title">Wastage Recommendations</div>
+          <div class="stat-value" style="color: var(--success);">3</div>
+          <div class="stat-badge text-success">⚡ Intelligent Recovery</div>
+        </div>
+        <div class="stat-icon-wrapper success">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
 
-        <section class="panel">
-            <div class="alert-section-header">
-                <div>
-                    <div class="alert-section-title">
-                        <span class="text-danger"><i class="bi bi-clock-history"></i></span>
-                        Expiring Soon
-                    </div>
-                    <div class="alert-section-sub">Medicines expiring within 30 days</div>
-                </div>
-            </div>
-            <div class="vstack gap-2" id="expiringContainer"></div>
-        </section>
+    <!-- Low Stock Section -->
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title" style="display: flex; align-items: center; gap: 8px;">
+            <svg class="ui-icon text-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+            </svg>
+            Low Stock Threshold Alerts
+          </h2>
+          <p class="panel-sub">Medicines where live shelf stock has fallen below clinical reorder safety margin</p>
+        </div>
+        <a href="inventory.html" class="btn-outline-custom" style="padding: 6px 14px; font-size: 0.82rem; min-height: 36px;">
+          View Full Catalog →
+        </a>
+      </div>
+      <div id="lowStockContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+    </section>
 
-        <section class="suggest-panel">
-            <div class="alert-section-title mb-1">
-                <span class="text-success"><i class="bi bi-stars"></i></span>
-                Smart Suggestions to Reduce Wastage
-            </div>
-            <div class="alert-section-sub mb-2">
-                AI‑powered recommendations to minimise medicine wastage and maximise revenue.
-            </div>
-            <div id="suggestContainer"></div>
-        </section>
-    </main>
+    <!-- Expiring Soon Section -->
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title" style="display: flex; align-items: center; gap: 8px;">
+            <svg class="ui-icon text-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Expiring Medicines (Within 30–70 Days)
+          </h2>
+          <p class="panel-sub">Automated batch date tracking to protect patient safety and prevent stock write-offs</p>
+        </div>
+      </div>
+      <div id="expiringContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+    </section>
+
+    <!-- Smart Suggestions Panel -->
+    <section class="panel" style="background: var(--success-soft); border-color: var(--success-border);">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title" style="color: var(--success); display: flex; align-items: center; gap: 8px;">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            Smart Recommendations to Prevent Wastage
+          </h2>
+          <p class="panel-sub" style="color: var(--text-main);">
+            Algorithmic promotional campaigns to expedite near-expiry inventory through partner clinic networks.
+          </p>
+        </div>
+      </div>
+      <div id="suggestContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
+    </section>
+
+  </main>
 </div>
 
 <script src="auth-logic.js"></script>
 <script>
-    const lowStockAlerts = [
-        { name: "Amoxicillin 250mg", brand: "Amoxil", current: 15, threshold: 50, priority: "High Priority" },
-        { name: "Aspirin 75mg",      brand: "Bayer",  current: 8,  threshold: 30, priority: "Critical" }
-    ];
-    const expiringSoon = [
-        { name: "Ibuprofen 400mg",  brand: "Advil",      qty: 300, expiry: "2024-03-15", daysLeft: "45 days left", severity: "High Priority" },
-        { name: "Cough Syrup",      brand: "Robitussin", qty: 80,  expiry: "2024-02-28", daysLeft: "28 days left", severity: "Critical" },
-        { name: "Vitamin C 1000mg", brand: "Generic",    qty: 150, expiry: "2024-04-10", daysLeft: "70 days left", severity: "Medium" },
-        { name: "Antibiotic Cream", brand: "Neosporin",  qty: 45,  expiry: "2024-02-20", daysLeft: "20 days left", severity: "Critical" }
-    ];
-    const suggestions = [
-        { name: "Ibuprofen 400mg",  note: "Expiring in 45 days", tag: "Discount Sale · 20% OFF" },
-        { name: "Cough Syrup",      note: "Expiring in 28 days", tag: "Discount Sale · 30% OFF" },
-        { name: "Antibiotic Cream", note: "Expiring in 20 days", tag: "Priority Sale · 40% OFF" }
-    ];
-    function makeEl(html) {
-        const tpl = document.createElement('template');
-        tpl.innerHTML = html.trim();
-        return tpl.content.firstElementChild;
-    }
-    function renderLowStock() {
-        const box = document.getElementById('lowStockContainer');
-        box.innerHTML = "";
-        lowStockAlerts.forEach(a => {
-            const chipClass = (a.priority === "Critical") ? "chip-critical" : "chip-medium";
-            box.appendChild(makeEl(`
-                <div class="alert-list-card">
-                    <div class="alert-list-main">
-                        <div class="alert-icon-pill">
-                            <i class="bi bi-box-seam"></i>
-                        </div>
-                        <div>
-                            <div class="alert-medicine">${a.name}</div>
-                            <div class="alert-brand">${a.brand}</div>
-                            <div class="alert-meta">
-                                <span>Current: <strong>${a.current}</strong></span>
-                                <span>Threshold: <strong>${a.threshold}</strong></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="alert-right">
-                        <span class="${chipClass}">${a.priority}</span>
-                        <button class="btn-pill-primary">Reorder</button>
-                    </div>
-                </div>
-            `));
-        });
-    }
-    function renderExpiring() {
-        const box = document.getElementById('expiringContainer');
-        box.innerHTML = "";
-        expiringSoon.forEach(a => {
-            const chipClass =
-                a.severity === "Critical" ? "chip-critical" :
-                a.severity === "Medium"   ? "chip-medium"  : "chip-warning";
-            const daysClass = a.severity === "Critical" ? "text-danger" : "text-warning";
-            box.appendChild(makeEl(`
-                <div class="alert-list-card">
-                    <div class="alert-list-main">
-                        <div class="alert-icon-pill">
-                            <i class="bi bi-alarm"></i>
-                        </div>
-                        <div>
-                            <div class="alert-medicine">${a.name}</div>
-                            <div class="alert-brand">${a.brand}</div>
-                            <div class="alert-meta">
-                                <span>Quantity: <strong>${a.qty}</strong></span>
-                                <span>Expiry: <span class="text-danger">${a.expiry}</span></span>
-                                <span class="${daysClass}">${a.daysLeft}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="alert-right">
-                        <span class="${chipClass}">${a.severity}</span>
-                        <button class="btn-outline-soft">Take Action</button>
-                    </div>
-                </div>
-            `));
-        });
-    }
-    function renderSuggestions() {
-        const box = document.getElementById('suggestContainer');
-        box.innerHTML = "";
-        suggestions.forEach(s => {
-            box.appendChild(makeEl(`
-                <div class="suggest-item">
-                    <div>
-                        <div class="suggest-name">${s.name}</div>
-                        <div class="suggest-sub">${s.note}</div>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="suggest-tag">${s.tag}</div>
-                        <button class="btn-apply">Apply Discount</button>
-                    </div>
-                </div>
-            `));
-        });
-    }
-    renderLowStock();
-    renderExpiring();
-    renderSuggestions();
+  const lowStockAlerts = [
+    { name: "Amoxicillin 250mg", brand: "Amoxil Labs", current: 15, threshold: 50, priority: "High Priority" },
+    { name: "Aspirin 75mg", brand: "Bayer Healthcare", current: 8, threshold: 30, priority: "Critical" }
+  ];
+
+  const expiringSoon = [
+    { name: "Ibuprofen 400mg", brand: "Advil", qty: 300, expiry: "2024-03-15", daysLeft: "45 days left", severity: "High Priority" },
+    { name: "Cough Syrup", brand: "Robitussin", qty: 80, expiry: "2024-02-28", daysLeft: "28 days left", severity: "Critical" },
+    { name: "Vitamin C 1000mg", brand: "Generic", qty: 150, expiry: "2024-04-10", daysLeft: "70 days left", severity: "Medium" },
+    { name: "Antibiotic Cream", brand: "Neosporin", qty: 45, expiry: "2024-02-20", daysLeft: "20 days left", severity: "Critical" }
+  ];
+
+  const suggestions = [
+    { name: "Ibuprofen 400mg", note: "Expiring in 45 days · 300 units remaining", tag: "Counter Flash Sale · 20% OFF" },
+    { name: "Cough Syrup", note: "Expiring in 28 days · 80 bottles remaining", tag: "Seasonal Clinic Bundle · 30% OFF" },
+    { name: "Antibiotic Cream", note: "Expiring in 20 days · 45 tubes remaining", tag: "Priority Clearance · 40% OFF" }
+  ];
+
+  function renderLowStock() {
+    const box = document.getElementById('lowStockContainer');
+    if (!box) return;
+    box.innerHTML = "";
+    lowStockAlerts.forEach(a => {
+      const isCrit = a.priority === "Critical";
+      const card = document.createElement('div');
+      card.className = "alert-item-card " + (isCrit ? "critical" : "warning");
+      card.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="alert-icon-box ${isCrit ? 'critical' : 'warning'}">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+            </svg>
+          </div>
+          <div>
+            <div style="font-weight: 700; font-size: 1rem; color: var(--text-main);">${a.name}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">${a.brand}</div>
+            <div style="font-size: 0.82rem; margin-top: 4px; display: flex; gap: 14px;">
+              <span>Current Stock: <strong style="color: ${isCrit ? 'var(--danger)' : 'var(--warning)'};">${a.current} units</strong></span>
+              <span>Reorder Level: <strong>${a.threshold} units</strong></span>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge-status ${isCrit ? 'outstock' : 'lowstock'}">${a.priority}</span>
+          <button class="btn-teal" style="padding: 7px 16px; font-size: 0.82rem; min-height: 36px;" onclick="showNotification('Supplier purchase order drafted for ' + '${a.name}')">
+            Reorder Now
+          </button>
+        </div>
+      `;
+      box.appendChild(card);
+    });
+  }
+
+  function renderExpiring() {
+    const box = document.getElementById('expiringContainer');
+    if (!box) return;
+    box.innerHTML = "";
+    expiringSoon.forEach(a => {
+      const isCrit = a.severity === "Critical";
+      const card = document.createElement('div');
+      card.className = "alert-item-card " + (isCrit ? "critical" : "warning");
+      card.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="alert-icon-box ${isCrit ? 'critical' : 'warning'}">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div>
+            <div style="font-weight: 700; font-size: 1rem; color: var(--text-main);">${a.name}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">${a.brand}</div>
+            <div style="font-size: 0.82rem; margin-top: 4px; display: flex; gap: 14px; flex-wrap: wrap;">
+              <span>Quantity: <strong>${a.qty} units</strong></span>
+              <span>Expiry: <strong style="color: var(--danger);">${a.expiry}</strong></span>
+              <span style="font-weight: 700; color: ${isCrit ? 'var(--danger)' : 'var(--warning)'};">${a.daysLeft}</span>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge-status ${isCrit ? 'outstock' : 'lowstock'}">${a.severity}</span>
+          <button class="btn-outline-custom" style="padding: 7px 16px; font-size: 0.82rem; min-height: 36px;" onclick="showNotification('Discount clearance campaign scheduled for ' + '${a.name}')">
+            Take Action
+          </button>
+        </div>
+      `;
+      box.appendChild(card);
+    });
+  }
+
+  function renderSuggestions() {
+    const box = document.getElementById('suggestContainer');
+    if (!box) return;
+    box.innerHTML = "";
+    suggestions.forEach(s => {
+      const item = document.createElement('div');
+      item.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--surface); border-radius: var(--radius-md); border: 1px solid var(--border);";
+      item.innerHTML = `
+        <div>
+          <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">${s.name}</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">${s.note}</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--success);">${s.tag}</span>
+          <button class="btn-teal" style="background: var(--success); padding: 6px 14px; font-size: 0.8rem; min-height: 34px;" onclick="showNotification('Applied campaign: ' + '${s.tag}')">
+            Apply Campaign
+          </button>
+        </div>
+      `;
+      box.appendChild(item);
+    });
+  }
+
+  renderLowStock();
+  renderExpiring();
+  renderSuggestions();
 </script>
 </body>
 </html>
