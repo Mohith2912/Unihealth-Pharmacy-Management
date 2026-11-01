@@ -1,145 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>UniHealth | Analytics</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>UniHealth · Pharmacy Analytics &amp; Trust</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Operational analytics, clinical trust score insights, and inventory flow visualizations.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230891b2'><path d='M19 10.5V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4.5'/><path d='M10 12h4m-2-2v4'/></svg>">
 </head>
 <body>
 <div class="app-shell">
 
-    <aside class="app-sidebar">
-        <div class="sidebar-brand">
-            <div class="brand-icon"><i class="bi bi-building-fill-check"></i></div>
-            <div>
-                <div class="brand-title">UniHealth</div>
-                <div class="brand-subtitle">Professional Portal</div>
-            </div>
-        </div>
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="app-sidebar" id="appSidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+          <path d="M12 8v8M8 12h8"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">UniHealth</div>
+        <div class="brand-subtitle">PHARMACY PORTAL</div>
+      </div>
+    </div>
 
-        <div class="sidebar-user mb-2">
-            <div class="sidebar-user-avatar">A</div>
-            <div>
-                <div class="fw-bold">Admin User</div>
-                <div class="brand-subtitle">Pharmacy ID: <span id="sidebarPhId">UH_12345</span></div>
-            </div>
-        </div>
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">RX</div>
+      <div style="overflow: hidden;">
+        <div class="fw-bold" style="font-size: 0.9rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">Pharmacist Admin</div>
+        <div class="brand-subtitle">ID: <span id="sidebarPhId">UH_12345</span></div>
+      </div>
+    </div>
 
-        <button class="btn btn-sm btn-outline-danger w-100 mb-3" onclick="handleLogout()">
-            <i class="bi bi-box-arrow-right me-2"></i> Logout
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="inventory.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+          <path d="m3.3 7 8.7 5 8.7-5M12 22V12"></path>
+        </svg>
+        <span>Inventory Catalog</span>
+      </a>
+      <a href="reservations.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <path d="m9 16 2 2 4-4"></path>
+        </svg>
+        <span>Reservations &amp; Pickups</span>
+      </a>
+      <a href="alerts.html" class="sidebar-link">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span>Stock Alerts</span>
+      </a>
+      <a href="analytics.html" class="sidebar-link active">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>Analytics &amp; Trust</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-danger-outline w-100" onclick="handleLogout()">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Sign Out Workspace
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="app-main">
+    <div class="app-header-row">
+      <div>
+        <div class="brand-subtitle" style="color: var(--primary);">CLINICAL INTELLIGENCE</div>
+        <h1 style="font-size: 1.85rem; margin: 4px 0 0;">Pharmacy Performance &amp; Trust</h1>
+      </div>
+      <div class="header-meta">
+        <button type="button" class="btn-icon" onclick="toggleTheme()" aria-label="Toggle theme">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m14.14-14.14l-1.41 1.41"></path>
+          </svg>
         </button>
+        <span class="live-pill">
+          <span class="live-dot"></span>
+          <span>CERTIFIED</span>
+        </span>
+      </div>
+    </div>
 
-        <nav class="sidebar-nav">
-            <a href="dashboard.html" class="sidebar-link">
-                <i class="bi bi-speedometer2"></i><span>Dashboard</span>
-            </a>
-            <a href="inventory.html" class="sidebar-link">
-                <i class="bi bi-box-seam"></i><span>Inventory</span>
-            </a>
-            <a href="reservations.html" class="sidebar-link">
-                <i class="bi bi-calendar-check"></i><span>Reservations</span>
-            </a>
-            <a href="alerts.html" class="sidebar-link">
-                <i class="bi bi-bell"></i><span>Alerts</span>
-            </a>
-            <a href="analytics.html" class="sidebar-link active">
-                <i class="bi bi-graph-up"></i><span>Analytics</span>
-            </a>
-        </nav>
-    </aside>
+    <!-- Trust Score Hero Panel -->
+    <section class="panel" style="background: linear-gradient(135deg, var(--surface) 0%, var(--surface-muted) 100%);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+        <div style="max-width: 650px;">
+          <span class="brand-subtitle" style="color: var(--primary);">VERIFIED COMPLIANCE</span>
+          <div style="display: flex; align-items: baseline; gap: 14px; margin: 8px 0 12px;">
+            <span style="font-family: 'Figtree', sans-serif; font-size: 3.2rem; font-weight: 800; color: var(--text-main); line-height: 1;">
+              92<span style="font-size: 1.5rem; color: var(--text-muted); font-weight: 500;">/100</span>
+            </span>
+            <span class="badge-status instock" style="font-size: 0.9rem; padding: 6px 14px;">
+              High Trust Index · Gold Standard
+            </span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px;">
+            UniHealth Trust Score is evaluated in real-time across four clinical operational pillars: Expiry Management, In-Stock Availability, Counter Pickup Speed, and Timely Stockout Intervention.
+          </p>
 
-    <main class="app-main">
-        <div class="app-header-row">
+          <!-- 4 Progress Bars -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
             <div>
-                <h2 class="fw-bold mb-0">Analytics</h2>
-                <p class="text-muted mb-0">Performance metrics and trust insights</p>
+              <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">
+                <span>Expiry Management</span>
+                <span style="color: var(--success);">96%</span>
+              </div>
+              <div class="stock-meter" style="margin: 0;"><div class="stock-meter-bar" style="width: 96%;"></div></div>
             </div>
-            <div class="text-end small text-muted">
-                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleTheme()">
-                    <i class="bi bi-moon-stars"></i>
-                </button>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">
+                <span>Stock Availability</span>
+                <span style="color: var(--primary);">90%</span>
+              </div>
+              <div class="stock-meter" style="margin: 0;"><div class="stock-meter-bar" style="width: 90%; background: var(--primary);"></div></div>
             </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">
+                <span>Reservation Fulfillment</span>
+                <span style="color: var(--success);">94%</span>
+              </div>
+              <div class="stock-meter" style="margin: 0;"><div class="stock-meter-bar" style="width: 94%;"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">
+                <span>Alert Response Time</span>
+                <span style="color: var(--warning);">88%</span>
+              </div>
+              <div class="stock-meter" style="margin: 0;"><div class="stock-meter-bar" style="width: 88%; background: var(--warning);"></div></div>
+            </div>
+          </div>
         </div>
 
-        <section class="trust-score mb-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <p class="text-muted small mb-1">UniHealth Trust Score</p>
-                    <h2 class="fw-bold">92 / 100</h2>
-                    <span class="text-success small fw-semibold">
-                        High · Consistent stock levels and timely alerts
-                    </span>
-                </div>
-                <div class="text-success fs-1">
-                    <i class="bi bi-shield-check"></i>
-                </div>
-            </div>
-            <small class="text-muted">
-                Score is based on expiry management, stockouts, reservation fulfilment and alert response time.
-            </small>
-        </section>
-
-        <div class="row g-3 mb-4">
-            <div class="col-md-4">
-                <div class="med-card">
-                    <div class="med-sub mb-1">Monthly Prescriptions</div>
-                    <h3>1,248</h3>
-                    <small class="text-success">+8% vs last month</small>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="med-card">
-                    <div class="med-sub mb-1">Average Basket Size</div>
-                    <h3>₹786</h3>
-                    <small class="text-success">+3.2% vs last month</small>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="med-card">
-                    <div class="med-sub mb-1">Return / Replacement Rate</div>
-                    <h3>1.4%</h3>
-                    <small class="text-muted">Stable</small>
-                </div>
-            </div>
+        <div style="width: 140px; height: 140px; border-radius: 50%; border: 6px solid var(--success-border); display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--success-soft);">
+          <svg class="ui-icon ui-icon-lg" style="stroke: var(--success);" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <polyline points="9 12 11 14 15 10"></polyline>
+          </svg>
+          <span style="font-size: 0.75rem; font-weight: 700; color: var(--success); margin-top: 4px;">AUDITED</span>
         </div>
+      </div>
+    </section>
 
-        <div class="row g-3">
-            <div class="col-lg-6">
-                <div class="flow-card">
-                    <h6 class="fw-semibold mb-2">
-                        Inventory to Alert Flow
-                    </h6>
-                    <p class="text-muted small mb-2">
-                        Visualise how low stock and expiry data generates alerts.
-                    </p>
-                    <ul class="small mb-0">
-                        <li>Inventory update → Threshold check</li>
-                        <li>Expiry check → Risk score</li>
-                        <li>Alert queue → Dashboard cards &amp; notifications</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="flow-card">
-                    <h6 class="fw-semibold mb-2">
-                        Reservation Journey Flow
-                    </h6>
-                    <p class="text-muted small mb-2">
-                        Track how a reservation moves from booking to pickup or delivery.
-                    </p>
-                    <ul class="small mb-0">
-                        <li>Reservation created (patient / partner)</li>
-                        <li>Stock reserved &amp; verified</li>
-                        <li>Pickup or delivery partner assigned</li>
-                        <li>Completion updates trust score &amp; metrics</li>
-                    </ul>
-                </div>
-            </div>
+    <!-- 3 Key Metric Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div>
+          <div class="stat-title">Monthly Prescriptions Dispensed</div>
+          <div class="stat-value">1,248</div>
+          <div class="stat-badge text-success">
+            <span>↑ +8.0%</span>
+            <span class="text-muted">vs previous month</span>
+          </div>
         </div>
-    </main>
+        <div class="stat-icon-wrapper success">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <div class="stat-title">Average Basket Value</div>
+          <div class="stat-value">₹786</div>
+          <div class="stat-badge text-success">
+            <span>↑ +3.2%</span>
+            <span class="text-muted">patient spending</span>
+          </div>
+        </div>
+        <div class="stat-icon-wrapper">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <div class="stat-title">Return &amp; Replacement Rate</div>
+          <div class="stat-value">1.4<small style="font-size: 1rem; color: var(--text-muted);">%</small></div>
+          <div class="stat-badge" style="color: var(--text-muted);">
+            <span>● Clinical benchmark &lt; 2.5%</span>
+          </div>
+        </div>
+        <div class="stat-icon-wrapper warning">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Prescription Activity SVG Chart -->
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Prescription Volume Trends (Last 6 Months)</h2>
+          <p class="panel-sub">Aggregated monthly prescription counts fulfilled across counter &amp; app</p>
+        </div>
+        <span class="badge-status instock">+18.4% YoY Growth</span>
+      </div>
+
+      <div style="height: 180px; display: flex; align-items: flex-end; gap: 24px; padding: 10px 10px 0; border-bottom: 2px solid var(--border);">
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">980</span>
+          <div style="width: 100%; max-width: 54px; height: 105px; background: var(--primary-light); border-radius: 6px 6px 0 0;"></div>
+          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">May</span>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">1,040</span>
+          <div style="width: 100%; max-width: 54px; height: 114px; background: var(--primary-light); border-radius: 6px 6px 0 0;"></div>
+          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Jun</span>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">1,110</span>
+          <div style="width: 100%; max-width: 54px; height: 124px; background: var(--primary-light); border-radius: 6px 6px 0 0;"></div>
+          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Jul</span>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">1,155</span>
+          <div style="width: 100%; max-width: 54px; height: 130px; background: var(--primary-light); border-radius: 6px 6px 0 0;"></div>
+          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Aug</span>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">1,190</span>
+          <div style="width: 100%; max-width: 54px; height: 138px; background: var(--primary); border-radius: 6px 6px 0 0;"></div>
+          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Sep</span>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--primary);">1,248</span>
+          <div style="width: 100%; max-width: 54px; height: 152px; background: linear-gradient(180deg, var(--secondary) 0%, var(--primary) 100%); border-radius: 6px 6px 0 0;"></div>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">Oct (Peak)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Operational Flow Cards -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <!-- Flow Card 1: Inventory to Alert Flow -->
+      <section class="panel">
+        <h2 class="panel-title" style="margin-bottom: 6px;">Inventory to Alert Architecture</h2>
+        <p class="panel-sub" style="margin-bottom: 18px;">Automated pipeline converting raw stock data into clinical actions</p>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">1</span>
+            <span style="font-size: 0.88rem; font-weight: 600;">Inventory Mutation → Automated Threshold Evaluation</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">2</span>
+            <span style="font-size: 0.88rem; font-weight: 600;">Expiry Date Scan → Risk Score Calculation (&lt; 30 / 60 days)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">3</span>
+            <span style="font-size: 0.88rem; font-weight: 600;">Alert Dispatch Queue → Instant Dashboard Badges &amp; Triage</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Flow Card 2: Reservation Journey Flow -->
+      <section class="panel">
+        <h2 class="panel-title" style="margin-bottom: 6px;">Patient Reservation Lifecycle</h2>
+        <p class="panel-sub" style="margin-bottom: 18px;">End-to-end tracing from booking request to final collection</p>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--success); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">1</span>
+            <span style="font-size: 0.88rem; font-weight: 600;">Reservation Placed (Patient App or Hospital Referral)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--success); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">2</span>
+            <span style="font-size: 0.88rem; font-weight: 600;">Real-time Stock Locking &amp; Prescription Verification</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-muted); border-radius: var(--radius-md);">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--success); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">3</span>
+            <span style="font-size: 0.88rem; font-weight: 600;">Fulfillment Confirmation → Updates Hospital Trust Index</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
 </div>
 
 <script src="auth-logic.js"></script>
