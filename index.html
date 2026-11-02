@@ -77,7 +77,25 @@
           </button>
         </div>
 
-        <form onsubmit="handleLogin(event); return false;">
+                <!-- Quick Demo Account Access -->
+        <div style="margin: 0 0 20px; padding: 14px 16px; border-radius: var(--radius-md, 12px); background: #ecfeff; border: 1.5px solid #06b6d4;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <span style="font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; color: #0891b2; text-transform: uppercase;">⚡ Quick Access Demo Account</span>
+            <span style="font-size: 0.68rem; font-weight: 700; background: #0891b2; color: #fff; padding: 2px 8px; border-radius: 999px;">Live Portal</span>
+          </div>
+          <p style="margin: 0 0 10px; font-size: 0.82rem; color: #0f172a; line-height: 1.4;">
+            Sign in with demo credentials to manage drug inventory, stock alerts, patient reservations, and analytics.
+          </p>
+          <button type="button" class="btn-primary-custom" onclick="document.getElementById('loginId').value='UH_12345'; document.getElementById('loginPass').value='Pharmacy@2026'; handleLogin(event);" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 16px; font-size: 0.88rem;">
+            <span>⚡ Enter Demo Pharmacy (1-Click)</span>
+          </button>
+          <div style="font-size: 0.75rem; color: #475569; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #a5f3fc;">
+            <span>Demo ID: <strong style="color: #0891b2;">UH_12345</strong></span>
+            <span>Password: <strong style="color: #0891b2;">Pharmacy@2026</strong></span>
+          </div>
+        </div>
+
+<form onsubmit="handleLogin(event); return false;">
           <div class="form-field-group">
             <label class="form-label-custom" for="loginId">Pharmacy ID</label>
             <div class="form-input-box">
