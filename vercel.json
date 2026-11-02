@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "routes": [
+    { "src": "/dashboard", "dest": "/dashboard.html" },
+    { "src": "/inventory", "dest": "/inventory.html" },
+    { "src": "/reservations", "dest": "/reservations.html" },
+    { "src": "/alerts", "dest": "/alerts.html" },
+    { "src": "/analytics", "dest": "/analytics.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
