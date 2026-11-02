@@ -29,9 +29,12 @@ function showNotification(message, isError = false) {
     document.body.appendChild(toast);
   }
   toast.style.borderColor = isError ? 'var(--danger)' : 'var(--primary)';
+  toast.setAttribute('role', isError ? 'alert' : 'status');
+  toast.setAttribute('aria-live', 'polite');
+  toast.style.backdropFilter = 'blur(8px)';
   toast.innerHTML = `
-    <span style="color:${isError ? 'var(--danger)' : 'var(--primary)'}">●</span>
-    <span>${message}</span>
+    <span style="width:8px;height:8px;border-radius:50%;background:${isError ? 'var(--danger)' : 'var(--primary)'};display:inline-block;box-shadow:0 0 8px ${isError ? 'var(--danger)' : 'var(--primary)'}"></span>
+    <span style="letter-spacing:0.01em;">${message}</span>
   `;
   toast.style.opacity = '1';
   toast.style.transform = 'translateY(0)';
