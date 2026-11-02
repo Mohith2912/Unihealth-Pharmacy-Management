@@ -1154,3 +1154,41 @@ button {
     align-items: flex-start;
   }
 }
+
+/* ==========================================================================
+   Print Media Stylesheet for Clinical Dispensation Slips & Inventory Lists
+   ========================================================================== */
+@media print {
+  .app-sidebar,
+  .mobile-header,
+  .mobile-toggle-btn,
+  .sidebar-overlay,
+  .app-header-row .btn,
+  .inv-toolbar,
+  .modal-overlay,
+  .skip-link,
+  #notification-toast {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt;
+  }
+
+  .app-main {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .app-card,
+  .med-card,
+  .res-card,
+  .table-responsive {
+    box-shadow: none !important;
+    border: 1px solid #d1d5db !important;
+    break-inside: avoid;
+  }
+}
