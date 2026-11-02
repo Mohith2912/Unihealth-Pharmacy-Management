@@ -425,3 +425,29 @@ function confirmForgotUh(event) {
   alert('Identity Confirmed! Your UniHealth Pharmacy ID (' + existingId + ') has been dispatched to ' + forgotUhEmail);
   backToLoginFromForgotUh();
 }
+
+// Global Keyboard Navigation Shortcuts for Clinical Pharmacy Portal
+document.addEventListener('keydown', function(e) {
+  if (e.altKey && !e.ctrlKey && !e.metaKey) {
+    switch (e.key.toLowerCase()) {
+      case 'd':
+        window.location.href = 'dashboard.html';
+        break;
+      case 'i':
+        window.location.href = 'inventory.html';
+        break;
+      case 'r':
+        window.location.href = 'reservations.html';
+        break;
+      case 'a':
+        window.location.href = 'alerts.html';
+        break;
+      case 'n':
+        window.location.href = 'analytics.html';
+        break;
+      case 'l':
+        window.location.href = 'index.html';
+        break;
+    }
+  }
+});
