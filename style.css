@@ -738,6 +738,36 @@ button {
 
 .stock-meter-bar.out {
   background: var(--danger);
+  box-shadow: 0 0 6px rgba(220, 38, 38, 0.4);
+}
+
+.stock-meter-bar.healthy {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
+}
+
+.badge-expiry {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--warning-light);
+  color: var(--warning);
+  border: 1px solid var(--warning);
+}
+
+.badge-batch {
+  display: inline-flex;
+  align-items: center;
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
 }
 
 .med-meta-values {
