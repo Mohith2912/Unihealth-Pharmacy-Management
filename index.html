@@ -86,9 +86,7 @@
           <p style="margin: 0 0 10px; font-size: 0.82rem; color: #0f172a; line-height: 1.4;">
             Sign in with demo credentials to manage drug inventory, stock alerts, patient reservations, and analytics.
           </p>
-          <button type="button" class="btn-primary-custom" onclick="document.getElementById('loginId').value='UH_12345'; document.getElementById('loginPass').value='Pharmacy@2026'; handleLogin(event);" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 16px; font-size: 0.88rem;">
-            <span>⚡ Enter Demo Pharmacy (1-Click)</span>
-          </button>
+          <a href="dashboard.html?demo=true" onclick="localStorage.setItem('pharmacyId', 'UH_12345');" style="width: 100%; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 16px; font-size: 0.92rem; font-weight: 700;" class="btn-primary-custom"><span>⚡ Direct Demo Login (Instant Access)</span></a>
           <div style="font-size: 0.75rem; color: #475569; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #a5f3fc;">
             <span>Demo ID: <strong style="color: #0891b2;">UH_12345</strong></span>
             <span>Password: <strong style="color: #0891b2;">Pharmacy@2026</strong></span>
