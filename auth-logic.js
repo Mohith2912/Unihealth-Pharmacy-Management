@@ -1,3 +1,22 @@
+
+// ---------- DIRECT DEMO LOGIN & AUTO-BYPASS ----------
+function directDemoLogin() {
+  localStorage.setItem('pharmacyId', 'UH_12345');
+  window.location.href = 'dashboard.html';
+}
+
+(function checkDemoUrl() {
+  if (typeof window === 'undefined') return;
+  const isDemo = window.location.search.includes('demo') || window.location.hash.includes('demo');
+  if (isDemo) {
+    localStorage.setItem('pharmacyId', 'UH_12345');
+    const p = window.location.pathname;
+    if (p.endsWith('index.html') || p === '/' || p.endsWith('/')) {
+      window.location.href = 'dashboard.html';
+    }
+  }
+})();
+
 let generatedOtp = null;
 
 // ---------- TOAST & NOTICE HELPERS ----------
