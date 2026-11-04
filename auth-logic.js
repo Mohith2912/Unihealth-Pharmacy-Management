@@ -1,4 +1,80 @@
 
+// ---------- THROTTLING & SEARCH DEBOUNCE UTILITIES ----------
+function debounce(fn, delay = 180) {
+  let timer = null;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+function throttle(fn, limit = 200) {
+  let inThrottle = false;
+  return function(...args) {
+    if (!inThrottle) {
+      fn.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+}
+
+// ---------- PHARMACY OPERATIONAL STATUS THEME SYNC ----------
+function syncPharmacyHospitalStatus() {
+  const status = localStorage.getItem('uh_hospital_status') || 'normal';
+  document.documentElement.dataset.hospitalStatus = status;
+  document.body.dataset.hospitalStatus = status;
+
+  const mainWrap = document.querySelector('.main-content-wrap') || document.querySelector('main') || document.body;
+  let banner = document.getElementById('pharmacy-status-banner');
+
+  if (status === 'emergency') {
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'pharmacy-status-banner';
+      banner.className = 'pharmacy-emergency-banner';
+      banner.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-size:1.3rem;">🚨</span>
+          <div>
+            <strong style="display:block;font-size:0.9rem;">HOSPITAL EMERGENCY PROTOCOL ACTIVE</strong>
+            <span style="font-size:0.78rem;opacity:0.95;">Trauma bay & ICU prescription dispensations elevated to priority queue.</span>
+          </div>
+        </div>
+        <span style="background:rgba(255,255,255,0.25);padding:4px 10px;border-radius:999px;font-size:0.72rem;font-weight:700;">PRIORITY DISPATCH</span>
+      `;
+      if (mainWrap.firstChild) mainWrap.insertBefore(banner, mainWrap.firstChild);
+    }
+  } else if (status === 'busy') {
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'pharmacy-status-banner';
+      banner.className = 'pharmacy-busy-banner';
+      banner.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-size:1.3rem;">⚠️</span>
+          <div>
+            <strong style="display:block;font-size:0.9rem;">SURGE CAPACITY ACTIVE</strong>
+            <span style="font-size:0.78rem;opacity:0.95;">High OPD volume detected. Buffer medicine reserves are being synchronized.</span>
+          </div>
+        </div>
+        <span style="background:rgba(255,255,255,0.25);padding:4px 10px;border-radius:999px;font-size:0.72rem;font-weight:700;">SURGE MODE</span>
+      `;
+      if (mainWrap.firstChild) mainWrap.insertBefore(banner, mainWrap.firstChild);
+    }
+  } else {
+    if (banner) banner.remove();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  syncPharmacyHospitalStatus();
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'uh_hospital_status') syncPharmacyHospitalStatus();
+  });
+});
+
+
 // ---------- DIRECT DEMO LOGIN & AUTO-BYPASS ----------
 function directDemoLogin() {
   localStorage.setItem('pharmacyId', 'UH_12345');
