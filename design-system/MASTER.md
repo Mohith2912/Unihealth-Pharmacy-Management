@@ -41,3 +41,12 @@ Built using the **UI/UX Pro Max skill** recommendations for clinical pharmacy ma
 - **Accessible Landmarks**: WCAG AAA skip-to-content links (`.skip-link`) on every page and live ARIA status notifications.
 - **Stock Threshold Visualizers**: Multi-tier `.stock-meter` with color-coded warning bars and `.badge-expiry` alert tags.
 - **Data Integrity**: 100% preservation of Realtime Database sync, local storage keys, and business workflows.
+
+## ⚡ Operational Mode Dynamic Theming & Animations
+
+The pharmacy portal synchronizes with the hospital operational status:
+
+- **Normal Flow (`#0891b2`)**: Standard dispensation, routine inventory holds.
+- **Surge / Busy (`#d97706`)**: High-traffic banner, fast-mover medication caching.
+- **Emergency Protocol (`#dc2626`)**: Urgent trauma & ICU drug priority dispatch marquee.
+- **Throttling**: 180ms input debounce on generic/brand drug catalog searches.

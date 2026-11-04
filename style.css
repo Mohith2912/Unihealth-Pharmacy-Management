@@ -1222,3 +1222,94 @@ button {
     break-inside: avoid;
   }
 }
+
+
+/* ==========================================================================
+   DYNAMIC CLINICAL OPERATIONAL THEMES (Normal, Busy, Emergency)
+   Synchronized healthcare aura, throttled search feedback & stock meters
+   ========================================================================== */
+
+html, body {
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* 1. Normal Clinical Flow */
+:root[data-hospital-status="normal"], body[data-hospital-status="normal"] {
+  --primary: #0891b2;
+  --primary-hover: #0e7490;
+  --secondary: #22d3ee;
+  --primary-glow: rgba(8, 145, 178, 0.15);
+  --header-theme-border: #a5f3fc;
+}
+
+/* 2. Busy / Surge Mode */
+:root[data-hospital-status="busy"], body[data-hospital-status="busy"] {
+  --primary: #d97706;
+  --primary-hover: #b45309;
+  --secondary: #f59e0b;
+  --primary-glow: rgba(217, 119, 6, 0.22);
+  --header-theme-border: #fcd34d;
+}
+
+/* 3. Emergency Mode */
+:root[data-hospital-status="emergency"], body[data-hospital-status="emergency"],
+:root[data-hospital-status="overloaded"], body[data-hospital-status="overloaded"] {
+  --primary: #dc2626;
+  --primary-hover: #b91c1c;
+  --secondary: #ef4444;
+  --primary-glow: rgba(220, 38, 38, 0.32);
+  --header-theme-border: #fca5a5;
+}
+
+/* Card Elevations & Micro-interactions */
+.metric-card, .data-card, .inventory-card-item {
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.22s ease;
+}
+
+.metric-card:hover, .data-card:hover, .inventory-card-item:hover {
+  transform: translateY(-2.5px);
+  box-shadow: 0 10px 25px -4px rgba(8, 145, 178, 0.12);
+  border-color: var(--primary);
+}
+
+/* Search Box Throttling Transition */
+.search-box input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-box input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* Emergency Dispatch Banner in Pharmacy */
+.pharmacy-emergency-banner {
+  background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: var(--radius-md, 12px);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.28);
+  animation: banner-pop 0.3s ease-out;
+}
+
+.pharmacy-busy-banner {
+  background: linear-gradient(135deg, #78350f 0%, #d97706 100%);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: var(--radius-md, 12px);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.25);
+  animation: banner-pop 0.3s ease-out;
+}
+
+@keyframes banner-pop {
+  0% { transform: scale(0.98); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
