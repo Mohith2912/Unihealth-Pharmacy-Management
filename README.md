@@ -1,6 +1,6 @@
 # UniHealth Pharmacy Management Portal
 
-A modern clinical pharmacy management system featuring real-time drug inventory tracking, patient reservation handling, stock alerts, and analytics dashboards — powered by Firebase Realtime Database.
+A clinical pharmacy workspace interface for inventory, reservations, alerts, and analytics. This repository currently ships a static prototype; it is not approved to process real prescription, inventory, or patient data until it is connected to the authenticated UniHealth API.
 
 ## 🚀 Quick Start
 
@@ -11,20 +11,17 @@ python -m http.server 5001
 # Then visit http://localhost:5001
 ```
 
-### Demo Access (No Setup Required)
-- **Direct Link**: `http://localhost:5001/?demo=true`
-- **Demo Pharmacy ID**: `UH_12345`
-- **Demo Password**: `Pharmacy@2026`
+### Prototype access
 
-Click the **"⚡ Direct Demo Login"** button on the sign-in page for instant 1-click access.
+The browser UI may be used for design review only. Client-side login, locally generated OTPs, and browser storage do not provide authentication and must not be used with real users or data.
 
 ## 🏗️ Architecture
 
 | Layer | Technology |
 |-------|-----------|
 | Frontend | Vanilla HTML5, CSS3, JavaScript |
-| Database | Firebase Realtime Database |
-| Authentication | Client-side with localStorage session |
+| Database | Pending shared UniHealth API migration |
+| Authentication | Pending server-side identity and role controls |
 | Design System | Clinical Teal `#0891B2`, Figtree + Noto Sans |
 | Accessibility | WCAG AAA, keyboard shortcuts, ARIA live regions |
 
