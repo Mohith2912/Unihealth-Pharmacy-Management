@@ -69,10 +69,27 @@ function syncPharmacyHospitalStatus() {
 
 document.addEventListener('DOMContentLoaded', () => {
   syncPharmacyHospitalStatus();
+  showPrototypeNotice();
   window.addEventListener('storage', (e) => {
     if (e.key === 'uh_hospital_status') syncPharmacyHospitalStatus();
   });
 });
+
+function showPrototypeNotice() {
+  if (document.getElementById('prototype-notice')) return;
+  const notice = document.createElement('aside');
+  notice.id = 'prototype-notice';
+  notice.setAttribute('role', 'note');
+  notice.setAttribute('aria-label', 'Prototype status');
+  notice.textContent = 'Prototype workspace — do not enter patient, prescription, or live inventory data.';
+  Object.assign(notice.style, {
+    position: 'fixed', bottom: '16px', left: '16px', right: '16px', zIndex: '10000',
+    maxWidth: '640px', margin: '0 auto', padding: '12px 16px', borderRadius: '10px',
+    background: '#102A43', color: '#FFFFFF', boxShadow: '0 8px 24px rgba(16,42,67,.22)',
+    fontSize: '14px', fontWeight: '700', lineHeight: '20px', textAlign: 'center'
+  });
+  document.body.appendChild(notice);
+}
 
 
 // ---------- DIRECT DEMO LOGIN & AUTO-BYPASS ----------
